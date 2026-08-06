@@ -3,9 +3,9 @@
 import Image from "next/image";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
+import { SiteHeader } from "@/components/site-header";
+import { useSiteStats } from "@/lib/use-site-stats";
 
-const imgSimbolo = "https://www.figma.com/api/mcp/asset/1fa9903e-2593-47ea-a956-4592a56248e2.svg";
-const imgLogotipia = "https://www.figma.com/api/mcp/asset/7c43a4e3-9d59-4df5-9822-8430344507aa.svg";
 const imgArrow = "https://www.figma.com/api/mcp/asset/f7f40b33-c5c4-4e53-bc0f-494309f024ef.svg";
 const imgArrow2 = "https://www.figma.com/api/mcp/asset/310a0780-cc17-4db0-97c4-44b6bce277e0.svg";
 const imgSeguranca = "https://www.figma.com/api/mcp/asset/2b52e036-221e-4f5a-8778-1cc8b79efa43.png";
@@ -231,9 +231,9 @@ function ProjetoItem({ proj, delay, isFirst }: {
 }
 
 export default function Home() {
+  const siteStats = useSiteStats();
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [depIndex, setDepIndex] = useState(0);
-  const [menuOpen, setMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -263,6 +263,11 @@ export default function Home() {
 
   const row1 = [...logos, ...logos, ...logos, ...logos];
   const row2 = [...logos.slice().reverse(), ...logos.slice().reverse(), ...logos.slice().reverse(), ...logos.slice().reverse()];
+  const homeStats = [
+    { label: "Anos de experiência", value: siteStats.anos, prefix: "", suffix: "", sub: "anos de mercado" },
+    { label: "Clientes", value: siteStats.clientes, prefix: "+", suffix: " mil", sub: "clientes" },
+    { label: "Atendimentos", value: siteStats.atendimentos, prefix: "+", suffix: " mil", sub: "atendimentos/ano" },
+  ];
 
   return (
     <main className="bg-[#EEF5FF] w-full overflow-x-hidden">
@@ -283,58 +288,7 @@ export default function Home() {
           <source src="/hero.mp4" type="video/mp4" />
         </video>
 
-        {/* NAV */}
-        <nav className="relative z-50 flex items-center justify-between px-5 md:px-20 py-7">
-          <div className="flex items-center gap-3">
-            <Image src={imgSimbolo} alt="Símbolo Instalsat" width={40} height={40} />
-            <Image src={imgLogotipia} alt="Instalsat" width={140} height={26} className="hidden sm:block" />
-          </div>
-
-          {/* DESKTOP NAV */}
-          <div className="hidden md:flex gap-1 items-center">
-            {[["Início", true], ["Institucional", false], ["Soluções", false], ["Projetos", false], ["Contato", false]].map(([item, active]) => (
-              <motion.a key={item as string} href="#" whileHover={{ color: "#E05829" }} transition={ease}
-                className={`px-2 py-2 text-[14px] font-['Rubik'] ${active ? "text-[#E05829]" : "text-[#DCE3EC]"}`}>
-                {item as string}
-              </motion.a>
-            ))}
-          </div>
-          <div className="hidden md:flex gap-3 items-center">
-            <BtWhatsApp text="Fale Conosco" />
-            <BtPrimary text="Solicite uma análise" />
-          </div>
-
-          {/* MOBILE HAMBURGER */}
-          <button className="md:hidden flex flex-col gap-[5px] cursor-pointer p-2" onClick={() => setMenuOpen(!menuOpen)}>
-            <motion.span animate={{ rotate: menuOpen ? 45 : 0, y: menuOpen ? 7 : 0 }} className="block w-6 h-[2px] bg-[#DCE3EC]" />
-            <motion.span animate={{ opacity: menuOpen ? 0 : 1 }} className="block w-6 h-[2px] bg-[#DCE3EC]" />
-            <motion.span animate={{ rotate: menuOpen ? -45 : 0, y: menuOpen ? -7 : 0 }} className="block w-6 h-[2px] bg-[#DCE3EC]" />
-          </button>
-        </nav>
-
-        {/* MENU MOBILE OVERLAY */}
-        <AnimatePresence>
-          {menuOpen && (
-            <motion.div
-              initial={{ opacity: 0, x: "100%" }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: "100%" }}
-              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-              className="fixed inset-0 z-40 bg-[#003841] flex flex-col items-start justify-center px-8 gap-8 md:hidden"
-            >
-              {["Início", "Institucional", "Soluções", "Projetos", "Contato"].map((item) => (
-                <a key={item} href="#" onClick={() => setMenuOpen(false)}
-                  className="text-[#DCE3EC] text-[32px] font-medium font-['Rubik'] hover:text-[#E05829] transition-colors">
-                  {item}
-                </a>
-              ))}
-              <div className="flex flex-col gap-4 mt-4 w-full">
-                <BtWhatsApp text="Fale Conosco" />
-                <BtPrimary text="Solicite uma análise" className="w-full flex items-center justify-center" />
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <SiteHeader activePath="/" />
 
         {/* HERO CONTENT — DESKTOP */}
         <div className="hidden md:flex relative z-10 px-20 items-end justify-between mt-14">
@@ -376,11 +330,7 @@ export default function Home() {
 
         {/* STATS — DESKTOP */}
         <div className="hidden md:flex absolute bottom-[-88px] left-20 right-20 gap-3 z-20">
-          {[
-            { label: "Anos de experiência", value: 28, prefix: "", suffix: "", sub: "anos de mercado" },
-            { label: "Clientes", value: 2, prefix: "+", suffix: " mil", sub: "clientes" },
-            { label: "Atendimentos", value: 3, prefix: "+", suffix: " mil", sub: "atendimentos/ano" },
-          ].map((stat) => (
+          {homeStats.map((stat) => (
             <div key={stat.label} className="bg-[#DCE3EC] flex-1 flex flex-col gap-11 px-4 py-4">
               <Eyebrow02 text={stat.label} />
               <div className="flex flex-col gap-3">
@@ -396,11 +346,7 @@ export default function Home() {
 
       {/* STATS — MOBILE */}
       <div className="flex md:hidden flex-col gap-3 px-5 py-8 bg-[#EEF5FF]">
-        {[
-          { label: "Anos de experiência", value: 28, prefix: "", suffix: "", sub: "anos de mercado" },
-          { label: "Clientes", value: 2, prefix: "+", suffix: " mil", sub: "clientes" },
-          { label: "Atendimentos", value: 3, prefix: "+", suffix: " mil", sub: "atendimentos/ano" },
-        ].map((stat) => (
+        {homeStats.map((stat) => (
           <div key={stat.label} className="bg-[#DCE3EC] flex flex-col gap-4 px-4 py-4">
             <Eyebrow02 text={stat.label} />
             <div className="flex flex-col gap-1">

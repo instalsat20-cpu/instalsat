@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Rubik } from "next/font/google";
+import { CookieConsent } from "@/components/cookie-consent";
 import "./globals.css";
 
 const rubik = Rubik({
@@ -22,6 +23,7 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body className={`${rubik.variable} font-sans antialiased`}>
         {children}
+        <CookieConsent />
       </body>
     </html>
   );
