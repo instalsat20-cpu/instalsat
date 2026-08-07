@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { usePathname } from "next/navigation";
 import { useSyncExternalStore } from "react";
 
 const STORAGE_KEY = "instalsat-cookie-consent";
@@ -41,9 +42,11 @@ function saveConsent(value: "accepted" | "essential") {
 }
 
 export function CookieConsent() {
+  const pathname = usePathname();
   const consent = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const reduceMotion = useReducedMotion();
-  const visible = consent === "pending";
+  const isSpecialPage = pathname === "/em-breve" || pathname === "/manutencao";
+  const visible = consent === "pending" && !isSpecialPage;
 
   return (
     <AnimatePresence initial={false}>
