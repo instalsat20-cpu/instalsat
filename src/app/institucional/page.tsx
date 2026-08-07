@@ -42,7 +42,7 @@ function FadeUp({ children, delay = 0, className = "" }: { children: React.React
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 28 }}
+      initial={false}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay, ease: [0.4, 0, 0.2, 1] }}
       className={className}
@@ -193,13 +193,13 @@ export default function InstitucionalPage() {
         <Image src="/institucional/asset-01.png" alt="Edifício corporativo no Grande ABC" fill priority sizes="100vw" className="object-cover opacity-15" />
         <SiteHeader activePath="/institucional" />
         <div className="relative z-10 flex flex-col gap-8 px-5 pb-16 pt-10 md:flex-row md:items-end md:justify-between md:px-20 md:pb-14 md:pt-7">
-          <motion.div initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }} className="flex max-w-[655px] flex-col gap-6">
+          <motion.div initial={false} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }} className="flex max-w-[655px] flex-col gap-6">
             <Eyebrow dark square>Sobre a Instalsat</Eyebrow>
             <h1 className="text-[36px] font-medium leading-[42px] text-[#DCE3EC] md:text-[40px] md:leading-[46px]">
               Quase três décadas construindo infraestrutura que funciona<span className="text-[#E05829]">.</span>
             </h1>
           </motion.div>
-          <motion.p initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.12, ease: [0.4, 0, 0.2, 1] }} className="max-w-[493px] text-[16px] leading-6 text-[#DCE3EC]">
+          <motion.p initial={false} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.12, ease: [0.4, 0, 0.2, 1] }} className="max-w-[493px] text-[16px] leading-6 text-[#DCE3EC]">
             Do Grande ABC para todo o estado. Da instalação à manutenção contínua. Da figura do fundador para uma empresa que opera com método, estrutura e presença.
           </motion.p>
         </div>

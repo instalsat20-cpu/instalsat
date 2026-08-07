@@ -62,7 +62,7 @@ function FadeUp({ children, delay = 0, className }: { children: React.ReactNode;
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 32 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay, ease: [0.4, 0, 0.2, 1] }} className={className}>
+    <motion.div ref={ref} initial={false} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay, ease: [0.4, 0, 0.2, 1] }} className={className}>
       {children}
     </motion.div>
   );
@@ -192,7 +192,7 @@ function ProjetoItem({ proj, delay, isFirst }: {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 32 }} animate={inView ? { opacity: 1, y: 0 } : {}}
+    <motion.div ref={ref} initial={false} animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay, ease: [0.4, 0, 0.2, 1] }}>
       {/* DESKTOP */}
       <div className="hidden md:flex h-[526px] relative">
@@ -292,13 +292,13 @@ export default function Home() {
 
         {/* HERO CONTENT — DESKTOP */}
         <div className="hidden md:flex relative z-10 px-20 items-end justify-between mt-14">
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }} className="flex flex-col gap-6 w-[600px]">
+          <motion.div initial={false} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }} className="flex flex-col gap-6 w-[600px]">
             <Eyebrow02 text="A empresa que fica" variant="dark-bg" />
             <h1 className="text-[#DCE3EC] text-[56px] font-medium font-['Rubik'] leading-[60px]">
               Para administradoras, síndicos e construtoras<span className="text-[#E05829]">.</span>
             </h1>
           </motion.div>
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.15, ease: [0.4, 0, 0.2, 1] }} className="flex flex-col gap-7 w-[480px]">
+          <motion.div initial={false} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.15, ease: [0.4, 0, 0.2, 1] }} className="flex flex-col gap-7 w-[480px]">
             <p className="text-[#DCE3EC] text-[20px] font-['Rubik'] leading-7">
               Segurança eletrônica e manutenção elétrica que não acabam quando a instalação termina.
             </p>
@@ -311,13 +311,13 @@ export default function Home() {
 
         {/* HERO CONTENT — MOBILE */}
         <div className="flex md:hidden relative z-10 px-5 flex-col gap-6 mt-8">
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }} className="flex flex-col gap-4">
+          <motion.div initial={false} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }} className="flex flex-col gap-4">
             <Eyebrow02 text="A empresa que fica" variant="dark-bg" />
             <h1 className="text-[#DCE3EC] text-[36px] font-medium font-['Rubik'] leading-[42px]">
               Para administradoras, síndicos e construtoras<span className="text-[#E05829]">.</span>
             </h1>
           </motion.div>
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.15, ease: [0.4, 0, 0.2, 1] }} className="flex flex-col gap-5">
+          <motion.div initial={false} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.15, ease: [0.4, 0, 0.2, 1] }} className="flex flex-col gap-5">
             <p className="text-[#DCE3EC] text-[16px] font-['Rubik'] leading-6">
               Segurança eletrônica e manutenção elétrica que não acabam quando a instalação termina.
             </p>
