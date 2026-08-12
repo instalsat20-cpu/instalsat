@@ -12,6 +12,7 @@ model User {
   name      String?
   email     String    @unique
   password  String?
+  image     String?
   role      Role      @default(PARTNER)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -103,6 +104,20 @@ model Configuracao {
   chave     String   @unique
   valor     String
   updatedAt DateTime @updatedAt
+}
+
+model MarketingIntegrations {
+  id              String   @id @default(cuid())
+  gtmId           String?
+  ga4Id           String?
+  googleAdsId     String?
+  googleAdsLabel  String?
+  metaPixelId     String?
+  whatsappNumber  String?
+  whatsappMessage String?
+  chatProvider    String?
+  chatId          String?
+  updatedAt       DateTime @updatedAt
 }
 
 enum Role {

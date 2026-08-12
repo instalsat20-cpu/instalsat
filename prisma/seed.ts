@@ -18,6 +18,12 @@ async function main() {
   });
 
   console.log("Usuário studio criado:", studio.email);
+
+  const integrations = await prisma.marketingIntegrations.findFirst();
+  if (!integrations) {
+    await prisma.marketingIntegrations.create({ data: { id: "singleton" } });
+    console.log("Registro de integrações de marketing criado.");
+  }
 }
 
 main()
