@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-const whatsappUrl = "https://wa.me/5511989012345";
+const whatsappUrl = "https://wa.me/551145411316";
 
 export default function ManutencaoPage() {
   return (

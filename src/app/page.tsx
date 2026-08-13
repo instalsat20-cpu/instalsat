@@ -273,7 +273,7 @@ export default function Home() {
     <main className="bg-[#EEF5FF] w-full overflow-x-hidden">
 
       {/* WHATSAPP FLUTUANTE */}
-      <a href="https://wa.me/5511989012345" target="_blank" rel="noopener noreferrer"
+      <a href="https://wa.me/551145411316" target="_blank" rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 bg-[#128C7E] w-[56px] h-[56px] rounded-full flex items-center justify-center shadow-lg md:hidden"
         style={{ boxShadow: "0 4px 16px rgba(0,0,0,0.2)" }}>
         <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
@@ -683,7 +683,7 @@ export default function Home() {
             <p className="text-[#003841] text-[18px] font-medium font-['Rubik']">Contato</p>
             <div>
               <p className="text-[#003841] text-[14px] font-['Rubik']">WhatsApp</p>
-              <a href="https://wa.me/5511989012345" target="_blank" rel="noopener noreferrer" className="text-[#E05829] text-[14px] font-semibold font-['Rubik'] hover:underline">[11] 98901-2345</a>
+              <a href="https://wa.me/551145411316" target="_blank" rel="noopener noreferrer" className="text-[#E05829] text-[14px] font-semibold font-['Rubik'] hover:underline">(11) 4541-1316</a>
             </div>
             <div>
               <p className="text-[#003841] text-[14px] font-['Rubik']">Telefone</p>

@@ -115,7 +115,7 @@ function ArrowIcon() {
 function WhatsAppButton({ children }: { children: React.ReactNode }) {
   return (
     <motion.a
-      href="https://wa.me/5511989012345"
+      href="https://wa.me/551145411316"
       target="_blank"
       rel="noopener noreferrer"
       whileHover={{ backgroundColor: "#0E6B5E" }}
@@ -162,7 +162,7 @@ function Footer() {
 
         <div className="flex flex-col gap-3 pt-10 md:w-[223px] md:pt-0">
           <p className="text-[18px] font-medium text-[#003841]">Contato</p>
-          <div><p className="text-[14px] text-[#003841]">WhatsApp</p><a href="https://wa.me/5511989012345" className="text-[14px] font-semibold text-[#E05829]">[11] 98901-2345</a></div>
+          <div><p className="text-[14px] text-[#003841]">WhatsApp</p><a href="https://wa.me/551145411316" className="text-[14px] font-semibold text-[#E05829]">(11) 4541-1316</a></div>
           <div><p className="text-[14px] text-[#003841]">Telefone</p><a href="tel:+5511439012345" className="text-[14px] font-semibold text-[#E05829]">[11] 43901-2345</a></div>
           <div><p className="text-[14px] text-[#003841]">E-mail</p><a href="mailto:contato@instalsat.com.br" className="text-[14px] font-semibold text-[#E05829]">contato@instalsat.com.br</a></div>
         </div>
