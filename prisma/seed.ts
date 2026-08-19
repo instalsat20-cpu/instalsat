@@ -131,6 +131,64 @@ async function main() {
     });
   }
   console.log(`${blocosConteudo.length} blocos de conteúdo sincronizados.`);
+
+  const solucoes = [
+    { categoria: "Segurança eletrônica", titulo: "Video monitoramento, controle de acesso, alarmes e automação.", descricao: "Video monitoramento, controle de acesso, alarmes e automação.", imagemUrl: "https://www.figma.com/api/mcp/asset/2b52e036-221e-4f5a-8778-1cc8b79efa43.png", destaqueHome: true, ordem: 0 },
+    { categoria: "Instalações elétricas", titulo: "Infraestrutura elétrica, painéis de comando e manutenção predial.", descricao: "Infraestrutura elétrica, painéis de comando e manutenção predial.", imagemUrl: "https://www.figma.com/api/mcp/asset/d3e2eeae-0a96-4f8a-ba1a-81d8db3d0e80.png", destaqueHome: true, ordem: 1 },
+    { categoria: "Manutenção recorrente", titulo: "Presença recorrente. Corretiva, preventiva e preditiva.", descricao: "Presença recorrente. Corretiva, preventiva e preditiva.", imagemUrl: "https://www.figma.com/api/mcp/asset/562c812c-2956-49e9-acc0-75e3799974ba.png", destaqueHome: true, ordem: 2 },
+  ];
+
+  if ((await prisma.solucao.count()) === 0) {
+    await prisma.solucao.createMany({ data: solucoes });
+    console.log(`${solucoes.length} soluções criadas.`);
+  } else {
+    console.log("Soluções já populadas, seed ignorado.");
+  }
+
+  const projetosHome = [
+    { categoria: "Segurança eletrônica", titulo: "Condomínio Residencial, Mauá SP", descricao: "Implantação de sistema de CFTV com IA, controle de acesso facial e automação de portão. Manutenção recorrente desde 2022.", imagemUrl: "https://www.figma.com/api/mcp/asset/83919e4a-7dfd-4ca6-9e70-5548c346cf74.png", destaqueHome: true, ordem: 0 },
+    { categoria: "Instalação elétrica", titulo: "Empresa de reciclagem, Grande ABC", descricao: "Projeto e execução de painel de comando industrial e infraestrutura elétrica de baixa tensão.", imagemUrl: "https://www.figma.com/api/mcp/asset/633f4998-b903-46df-b005-4dc03bde51b3.png", destaqueHome: true, ordem: 1 },
+    { categoria: "Manutenção predial", titulo: "Condomínio Comercial, São Bernardo do Campo SP", descricao: "Contrato de manutenção corretiva, preventiva e preditiva de sistemas elétricos e eletrônicos. Parceria ativa há 4 anos.", imagemUrl: "https://www.figma.com/api/mcp/asset/dc56e5a5-abf4-44c8-b560-d7e988aa657a.png", destaqueHome: true, ordem: 2 },
+  ];
+
+  if ((await prisma.projeto.count()) === 0) {
+    await prisma.projeto.createMany({ data: projetosHome });
+    console.log(`${projetosHome.length} projetos criados.`);
+  } else {
+    console.log("Projetos já populados, seed ignorado.");
+  }
+
+  const clientes = [
+    { nome: "Cliente 1", logoUrl: "/logos/Company logo.svg", ordem: 0 },
+    { nome: "Cliente 2", logoUrl: "/logos/Company logo-1.svg", ordem: 1 },
+    { nome: "Cliente 3", logoUrl: "/logos/Company logo-2.svg", ordem: 2 },
+    { nome: "Cliente 4", logoUrl: "/logos/Company logo-3.svg", ordem: 3 },
+    { nome: "Cliente 5", logoUrl: "/logos/Company logo-4.svg", ordem: 4 },
+    { nome: "Cliente 6", logoUrl: "/logos/Company logo-5.svg", ordem: 5 },
+  ];
+
+  if ((await prisma.cliente.count()) === 0) {
+    await prisma.cliente.createMany({ data: clientes });
+    console.log(`${clientes.length} clientes criados.`);
+  } else {
+    console.log("Clientes já populados, seed ignorado.");
+  }
+
+  // Nota: o 4º item repete o 1º de propósito — é o dado exato hoje hardcoded
+  // no carrossel da Home (mantido para não alterar o comportamento visual).
+  const depoimentos = [
+    { texto: "Diferente de outras empresas que a gente já contratou, a Instalsat não sumiu depois da instalação. Qualquer problema, a Equipe atende.", nome: "Fausto Mazzatto", cargo: "Síndico — Condomínio Celta", fotoUrl: "https://www.figma.com/api/mcp/asset/2a34a719-456c-45bc-9dc1-67201a7757ac.png", ordem: 0 },
+    { texto: "Indico para todos os condomínios da minha carteira sem hesitar. Nunca tive problema de retrabalho nem de prazo.", nome: "Alethia Machado", cargo: "Síndica — Condomínio Celta", fotoUrl: "https://www.figma.com/api/mcp/asset/d1f01abb-67b1-4766-87a4-1859b899c866.png", ordem: 1 },
+    { texto: "A proposta deles é diferente. Eles vêm, analisam, e apresentam uma solução pensada pro nosso prédio. Não é uma lista de preços.", nome: "Mariana Moran", cargo: "Síndica — Condomínio Celta", fotoUrl: "https://www.figma.com/api/mcp/asset/2b52e036-221e-4f5a-8778-1cc8b79efa43.png", ordem: 2 },
+    { texto: "Diferente de outras empresas que a gente já contratou, a Instalsat não sumiu depois da instalação. Qualquer problema, a Equipe atende.", nome: "Fausto Mazzatto", cargo: "Síndico — Condomínio Celta", fotoUrl: "https://www.figma.com/api/mcp/asset/2a34a719-456c-45bc-9dc1-67201a7757ac.png", ordem: 3 },
+  ];
+
+  if ((await prisma.depoimento.count()) === 0) {
+    await prisma.depoimento.createMany({ data: depoimentos });
+    console.log(`${depoimentos.length} depoimentos criados.`);
+  } else {
+    console.log("Depoimentos já populados, seed ignorado.");
+  }
 }
 
 main()

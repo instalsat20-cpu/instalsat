@@ -18,10 +18,13 @@ const ADMIN_ROLES = ["STUDIO", "CLIENT_ADMIN"];
 
 const links = [
   { href: "/admin", label: "Dashboard", icon: "dashboard" },
+  { href: "/admin/conteudo-institucional", label: "Conteúdo Institucional", icon: "data" },
   { href: "/admin/depoimentos", label: "Depoimentos", icon: "reports" },
   { href: "/admin/clientes", label: "Clientes", icon: "staff" },
   { href: "/admin/solucoes", label: "Soluções", icon: "data" },
   { href: "/admin/projetos", label: "Projetos", icon: "reports" },
+  { href: "/admin/processos", label: "Processos", icon: "reports" },
+  { href: "/admin/pessoas", label: "Pessoas", icon: "staff" },
   { href: "/admin/configuracoes", label: "Configurações", icon: "settings" },
   { href: "/admin/integracoes", label: "Integrações", icon: "data", adminOnly: true },
   { href: "/admin/usuarios", label: "Usuários", icon: "users" },
