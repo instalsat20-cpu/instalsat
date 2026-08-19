@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { SiteHeader } from "@/components/site-header";
 import { useSiteStats } from "@/lib/use-site-stats";
 import { useClientes, usePessoas, useConteudoInstitucional } from "@/lib/use-site-content";
+import { SocialLinks } from "@/components/ui/social-icons";
 
 const ease = { duration: 0.3, ease: [0.4, 0, 0.2, 1] as const };
 
@@ -117,6 +118,7 @@ function Footer({ conteudo }: { conteudo: Record<string, string> }) {
         <div className="flex flex-col gap-4 border-b border-[#DCE3EC] pb-10 md:w-[230px] md:border-0 md:pb-0">
           <Image src="/LOGO.svg" alt="Instalsat" width={160} height={32} className="h-auto" />
           <p className="text-[16px] font-medium text-[#003841]">{conteudo.footer_tagline}<span className="text-[#E05829]">.</span></p>
+          <SocialLinks />
         </div>
 
         <div className="grid grid-cols-2 gap-8 border-b border-[#DCE3EC] py-10 md:flex md:gap-20 md:border-0 md:py-0">

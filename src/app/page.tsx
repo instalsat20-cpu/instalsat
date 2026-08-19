@@ -6,9 +6,17 @@ import { useRef, useEffect, useState } from "react";
 import { SiteHeader } from "@/components/site-header";
 import { useSiteStats } from "@/lib/use-site-stats";
 import { useSolucoesDestaque, useProjetosDestaque, useClientes, useDepoimentos, useProcessos, useConteudoInstitucional } from "@/lib/use-site-content";
+import { ArrowLink } from "@/components/ui/arrow-link";
+import { SocialLinks } from "@/components/ui/social-icons";
 
-const imgArrow = "https://www.figma.com/api/mcp/asset/f7f40b33-c5c4-4e53-bc0f-494309f024ef.svg";
-const imgArrow2 = "https://www.figma.com/api/mcp/asset/310a0780-cc17-4db0-97c4-44b6bce277e0.svg";
+function ArrowRightIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className={`shrink-0 ${className}`} xmlns="http://www.w3.org/2000/svg">
+      <path d="M2.917 7H11.083" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M7 2.917L11.083 7L7 11.083" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
 const ease = { duration: 0.3, ease: [0.4, 0, 0.2, 1] };
 const CARD_WIDTH = 302;
@@ -78,7 +86,7 @@ function BtPrimaryArrow({ text, className = "" }: { text: string; className?: st
     <motion.button whileHover={{ backgroundColor: "#AD4420" }} transition={ease}
       className={`bg-[#E05829] h-[52px] px-6 flex items-center gap-3 text-[#EEF5FF] text-[15px] font-medium font-['Rubik'] whitespace-nowrap cursor-pointer ${className}`}>
       {text}
-      <Image src={imgArrow} alt="" width={14} height={14} className="rotate-180" />
+      <ArrowRightIcon />
     </motion.button>
   );
 }
@@ -88,7 +96,7 @@ function BtOutlineArrow({ text, dark = true }: { text: string; dark?: boolean })
     <motion.button whileHover={{ backgroundColor: "#E05829", color: "#EEF5FF" }} transition={ease}
       className={`border border-[#E05829] h-[52px] px-6 flex items-center gap-3 text-[15px] font-medium font-['Rubik'] whitespace-nowrap cursor-pointer ${dark ? "text-[#EEF5FF]" : "text-[#003841]"}`}>
       {text}
-      <Image src={imgArrow} alt="" width={14} height={14} className="rotate-180" />
+      <ArrowRightIcon />
     </motion.button>
   );
 }
@@ -103,19 +111,6 @@ function BtWhatsApp({ text }: { text: string }) {
         <path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.555 4.122 1.528 5.855L.057 23.886a.5.5 0 0 0 .612.612l6.031-1.471A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.686-.522-5.204-1.428l-.374-.222-3.878.945.964-3.878-.244-.386A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
       </svg>
     </motion.button>
-  );
-}
-
-function BtText({ text }: { text: string }) {
-  return (
-    <motion.div className="flex flex-col gap-2 w-fit cursor-pointer" whileHover="hover" initial="rest">
-      <motion.div variants={{ rest: { color: "#003841" }, hover: { color: "#E05829" } }} transition={ease}
-        className="flex items-center gap-3 text-[15px] font-medium font-['Rubik']">
-        <span>{text}</span>
-        <Image src={imgArrow2} alt="" width={14} height={14} className="rotate-180" />
-      </motion.div>
-      <motion.div variants={{ rest: { backgroundColor: "#003841" }, hover: { backgroundColor: "#E05829" } }} transition={ease} className="h-px w-full" />
-    </motion.div>
   );
 }
 
@@ -248,7 +243,7 @@ export default function Home() {
       </a>
 
       {/* HERO */}
-      <section className="relative bg-[#003841] w-full h-[630px] md:h-[630px]">
+      <section className="relative bg-[#003841] w-full h-[800px] md:h-[800px] flex flex-col">
         <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover opacity-30">
           <source src="/hero.mp4" type="video/mp4" />
         </video>
@@ -256,7 +251,7 @@ export default function Home() {
         <SiteHeader activePath="/" />
 
         {/* HERO CONTENT — DESKTOP */}
-        <div className="hidden md:flex relative z-10 px-20 items-end justify-between mt-14">
+        <div className="hidden md:flex relative z-10 px-20 items-center justify-between flex-1 -mt-[100px]">
           <motion.div initial={false} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }} className="flex flex-col gap-6 w-[600px]">
             <Eyebrow02 text={conteudo.home_hero_eyebrow} variant="dark-bg" />
             <h1 className="text-[#DCE3EC] text-[56px] font-medium font-['Rubik'] leading-[60px]">
@@ -275,7 +270,7 @@ export default function Home() {
         </div>
 
         {/* HERO CONTENT — MOBILE */}
-        <div className="flex md:hidden relative z-10 px-5 flex-col gap-6 mt-8">
+        <div className="flex md:hidden relative z-10 px-5 flex-col gap-6 flex-1 justify-center -mt-[100px]">
           <motion.div initial={false} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }} className="flex flex-col gap-4">
             <Eyebrow02 text={conteudo.home_hero_eyebrow} variant="dark-bg" />
             <h1 className="text-[#DCE3EC] text-[36px] font-medium font-['Rubik'] leading-[42px]">
@@ -350,7 +345,7 @@ export default function Home() {
                 <div className="flex flex-col gap-4">
                   <Eyebrow02 text={sol.tag} />
                   <h3 className="text-[#003841] text-[24px] md:text-[32px] font-medium font-['Rubik'] leading-[30px] md:leading-[38px] md:w-[480px]">{sol.title}</h3>
-                  <BtText text="Explore a solução" />
+                  <ArrowLink text="Explore a solução" />
                 </div>
               </div>
             </FadeUp>
@@ -617,6 +612,7 @@ export default function Home() {
             <p className="text-[#003841] text-[16px] font-medium font-['Rubik']">
               {conteudo.footer_tagline}<span className="text-[#E05829]">.</span>
             </p>
+            <SocialLinks />
           </div>
 
           <div className="grid grid-cols-2 md:flex md:gap-20 gap-8 py-10 md:py-0 border-b md:border-b-0 border-[#DCE3EC]">
