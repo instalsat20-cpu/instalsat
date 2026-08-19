@@ -99,6 +99,43 @@ model Projeto {
   updatedAt    DateTime @updatedAt
 }
 
+model Processo {
+  id        String   @id @default(cuid())
+  categoria String
+  numero    String
+  titulo    String
+  descricao String
+  imagemUrl String?
+  ativo     Boolean  @default(true)
+  ordem     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Pessoa {
+  id          String   @id @default(cuid())
+  nome        String
+  cargo       String
+  descricao   String
+  imagemUrl   String?
+  ativo       Boolean  @default(true)
+  ordem       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Blocos de texto institucional (hero, CTA, história, pilares, footer) que o
+// cliente edita com frequência pelo painel. Chave única legível por bloco;
+// "grupo" e "label" só orientam a organização da tela de admin.
+model BlocoConteudo {
+  id        String   @id @default(cuid())
+  chave     String   @unique
+  valor     String
+  label     String
+  grupo     String
+  updatedAt DateTime @updatedAt
+}
+
 model Configuracao {
   id        String   @id @default(cuid())
   chave     String   @unique
