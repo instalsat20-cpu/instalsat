@@ -5,22 +5,10 @@ import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { SiteHeader } from "@/components/site-header";
 import { useSiteStats } from "@/lib/use-site-stats";
+import { useSolucoesDestaque, useProjetosDestaque, useClientes, useDepoimentos, useProcessos, useConteudoInstitucional } from "@/lib/use-site-content";
 
 const imgArrow = "https://www.figma.com/api/mcp/asset/f7f40b33-c5c4-4e53-bc0f-494309f024ef.svg";
 const imgArrow2 = "https://www.figma.com/api/mcp/asset/310a0780-cc17-4db0-97c4-44b6bce277e0.svg";
-const imgSeguranca = "https://www.figma.com/api/mcp/asset/2b52e036-221e-4f5a-8778-1cc8b79efa43.png";
-const imgEletrica = "https://www.figma.com/api/mcp/asset/d3e2eeae-0a96-4f8a-ba1a-81d8db3d0e80.png";
-const imgManutencao = "https://www.figma.com/api/mcp/asset/562c812c-2956-49e9-acc0-75e3799974ba.png";
-const imgProcesso1 = "https://www.figma.com/api/mcp/asset/40b208b2-4705-41f6-87fa-e3163ec0ad04.png";
-const imgProcesso2 = "https://www.figma.com/api/mcp/asset/d1f01abb-67b1-4766-87a4-1859b899c866.png";
-const imgProcesso3 = "https://www.figma.com/api/mcp/asset/c7331991-be64-45b2-9eb9-1b4666423c72.png";
-const imgProcesso4 = "https://www.figma.com/api/mcp/asset/38dbf60b-b270-42d6-8210-f4845ec11901.png";
-const imgProjeto1 = "https://www.figma.com/api/mcp/asset/83919e4a-7dfd-4ca6-9e70-5548c346cf74.png";
-const imgProjeto2 = "https://www.figma.com/api/mcp/asset/633f4998-b903-46df-b005-4dc03bde51b3.png";
-const imgProjeto3 = "https://www.figma.com/api/mcp/asset/dc56e5a5-abf4-44c8-b560-d7e988aa657a.png";
-const imgDep1 = "https://www.figma.com/api/mcp/asset/2a34a719-456c-45bc-9dc1-67201a7757ac.png";
-const imgDep2 = "https://www.figma.com/api/mcp/asset/d1f01abb-67b1-4766-87a4-1859b899c866.png";
-const imgDep3 = "https://www.figma.com/api/mcp/asset/2b52e036-221e-4f5a-8778-1cc8b79efa43.png";
 
 const ease = { duration: 0.3, ease: [0.4, 0, 0.2, 1] };
 const CARD_WIDTH = 302;
@@ -28,35 +16,6 @@ const PHOTO_WIDTH = 302;
 const GAP = 12;
 const ITEM_WIDTH = CARD_WIDTH + PHOTO_WIDTH + GAP;
 const DEP_WIDTH = 424;
-
-const processos = [
-  { tag: "Diagnóstico", num: "01", title: "Visita Técnica", desc: "Todo projeto começa por um diagnóstico real. Nenhuma proposta sai de tabela genérica.", img: imgProcesso1 },
-  { tag: "Execução", num: "02", title: "Execução estruturada", desc: "Roadmap claro, etapas definidas, responsabilidade técnica do início ao fim.", img: imgProcesso2 },
-  { tag: "Recorrência", num: "03", title: "Acompanhamento", desc: "Visitas programadas, diagnóstico preventivo, atendimento antes que o problema apareça.", img: imgProcesso3 },
-  { tag: "Presença", num: "04", title: "Presença contínua", desc: "O relacionamento não termina na nota fiscal. A Instalsat permanece.", img: imgProcesso4 },
-];
-
-const projetos = [
-  { tag: "Segurança eletrônica", title: "Condomínio Residencial, Mauá SP", desc: "Implantação de sistema de CFTV com IA, controle de acesso facial e automação de portão. Manutenção recorrente desde 2022.", img: imgProjeto1 },
-  { tag: "Instalação elétrica", title: "Empresa de reciclagem, Grande ABC", desc: "Projeto e execução de painel de comando industrial e infraestrutura elétrica de baixa tensão.", img: imgProjeto2 },
-  { tag: "Manutenção predial", title: "Condomínio Comercial, São Bernardo do Campo SP", desc: "Contrato de manutenção corretiva, preventiva e preditiva de sistemas elétricos e eletrônicos. Parceria ativa há 4 anos.", img: imgProjeto3 },
-];
-
-const depoimentos = [
-  { quote: "Diferente de outras empresas que a gente já contratou, a Instalsat não sumiu depois da instalação. Qualquer problema, a Equipe atende.", name: "Fausto Mazzatto", role: "Síndico — Condomínio Celta", img: imgDep1 },
-  { quote: "Indico para todos os condomínios da minha carteira sem hesitar. Nunca tive problema de retrabalho nem de prazo.", name: "Alethia Machado", role: "Síndica — Condomínio Celta", img: imgDep2 },
-  { quote: "A proposta deles é diferente. Eles vêm, analisam, e apresentam uma solução pensada pro nosso prédio. Não é uma lista de preços.", name: "Mariana Moran", role: "Síndica — Condomínio Celta", img: imgDep3 },
-  { quote: "Diferente de outras empresas que a gente já contratou, a Instalsat não sumiu depois da instalação. Qualquer problema, a Equipe atende.", name: "Fausto Mazzatto", role: "Síndico — Condomínio Celta", img: imgDep1 },
-];
-
-const logos = [
-  "/logos/Company logo.svg",
-  "/logos/Company logo-1.svg",
-  "/logos/Company logo-2.svg",
-  "/logos/Company logo-3.svg",
-  "/logos/Company logo-4.svg",
-  "/logos/Company logo-5.svg",
-];
 
 function FadeUp({ children, delay = 0, className }: { children: React.ReactNode; delay?: number; className?: string }) {
   const ref = useRef(null);
@@ -232,6 +191,12 @@ function ProjetoItem({ proj, delay, isFirst }: {
 
 export default function Home() {
   const siteStats = useSiteStats();
+  const conteudo = useConteudoInstitucional();
+  const solucoes = useSolucoesDestaque();
+  const projetos = useProjetosDestaque();
+  const logos = useClientes();
+  const depoimentos = useDepoimentos();
+  const processos = useProcessos();
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [depIndex, setDepIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
@@ -293,14 +258,14 @@ export default function Home() {
         {/* HERO CONTENT — DESKTOP */}
         <div className="hidden md:flex relative z-10 px-20 items-end justify-between mt-14">
           <motion.div initial={false} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }} className="flex flex-col gap-6 w-[600px]">
-            <Eyebrow02 text="A empresa que fica" variant="dark-bg" />
+            <Eyebrow02 text={conteudo.home_hero_eyebrow} variant="dark-bg" />
             <h1 className="text-[#DCE3EC] text-[56px] font-medium font-['Rubik'] leading-[60px]">
-              Para administradoras, síndicos e construtoras<span className="text-[#E05829]">.</span>
+              {conteudo.home_hero_titulo}<span className="text-[#E05829]">.</span>
             </h1>
           </motion.div>
           <motion.div initial={false} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.15, ease: [0.4, 0, 0.2, 1] }} className="flex flex-col gap-7 w-[480px]">
             <p className="text-[#DCE3EC] text-[20px] font-['Rubik'] leading-7">
-              Segurança eletrônica e manutenção elétrica que não acabam quando a instalação termina.
+              {conteudo.home_hero_paragrafo}
             </p>
             <div className="flex gap-3 items-center">
               <BtPrimary text="Solicite uma análise" />
@@ -312,14 +277,14 @@ export default function Home() {
         {/* HERO CONTENT — MOBILE */}
         <div className="flex md:hidden relative z-10 px-5 flex-col gap-6 mt-8">
           <motion.div initial={false} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }} className="flex flex-col gap-4">
-            <Eyebrow02 text="A empresa que fica" variant="dark-bg" />
+            <Eyebrow02 text={conteudo.home_hero_eyebrow} variant="dark-bg" />
             <h1 className="text-[#DCE3EC] text-[36px] font-medium font-['Rubik'] leading-[42px]">
-              Para administradoras, síndicos e construtoras<span className="text-[#E05829]">.</span>
+              {conteudo.home_hero_titulo}<span className="text-[#E05829]">.</span>
             </h1>
           </motion.div>
           <motion.div initial={false} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.15, ease: [0.4, 0, 0.2, 1] }} className="flex flex-col gap-5">
             <p className="text-[#DCE3EC] text-[16px] font-['Rubik'] leading-6">
-              Segurança eletrônica e manutenção elétrica que não acabam quando a instalação termina.
+              {conteudo.home_hero_paragrafo}
             </p>
             <div className="flex flex-col gap-3">
               <BtPrimary text="Solicite uma análise" className="w-full flex items-center justify-center" />
@@ -376,11 +341,7 @@ export default function Home() {
           </div>
         </FadeUp>
         <div className="flex flex-col">
-          {[
-            { tag: "Segurança eletrônica", title: "Video monitoramento, controle de acesso, alarmes e automação.", img: imgSeguranca },
-            { tag: "Instalações elétricas", title: "Infraestrutura elétrica, painéis de comando e manutenção predial.", img: imgEletrica },
-            { tag: "Manutenção recorrente", title: "Presença recorrente. Corretiva, preventiva e preditiva.", img: imgManutencao },
-          ].map((sol, i, arr) => (
+          {solucoes.map((sol, i, arr) => (
             <FadeUp key={i} delay={i * 0.1}>
               <div className={`flex flex-col md:flex-row md:gap-28 md:items-center py-10 gap-6 ${i < arr.length - 1 ? "border-b border-[#DCE3EC]" : ""}`}>
                 <div className="bg-[#003841] w-full md:w-[526px] h-[220px] md:h-[327px] shrink-0 overflow-hidden relative">
@@ -632,10 +593,10 @@ export default function Home() {
           <div className="bg-[#003841] w-full py-14 md:py-20 flex flex-col items-center gap-8 md:gap-10 px-5 md:px-0">
             <div className="flex flex-col gap-4 items-center text-center max-w-[600px]">
               <h2 className="text-[#DCE3EC] text-[28px] md:text-[48px] font-medium font-['Rubik'] leading-[34px] md:leading-[48px]">
-                Pronto para ter uma empresa que fica?
+                {conteudo.cta_titulo}?
               </h2>
               <p className="text-[#DCE3EC] text-[15px] font-['Rubik'] leading-[23px]">
-                Fale com a Instalsat e entenda como podemos estruturar a segurança e a infraestrutura do seu condomínio ou empresa.
+                {conteudo.cta_paragrafo}
               </p>
             </div>
             <div className="flex flex-col md:flex-row gap-3 items-center w-full md:w-auto">
@@ -654,7 +615,7 @@ export default function Home() {
               <Image src="/LOGO.svg" alt="Instalsat" fill className="object-contain object-left" />
             </div>
             <p className="text-[#003841] text-[16px] font-medium font-['Rubik']">
-              A empresa que fica<span className="text-[#E05829]">.</span>
+              {conteudo.footer_tagline}<span className="text-[#E05829]">.</span>
             </p>
           </div>
 
@@ -683,22 +644,22 @@ export default function Home() {
             <p className="text-[#003841] text-[18px] font-medium font-['Rubik']">Contato</p>
             <div>
               <p className="text-[#003841] text-[14px] font-['Rubik']">WhatsApp</p>
-              <a href="https://wa.me/551145411316" target="_blank" rel="noopener noreferrer" className="text-[#E05829] text-[14px] font-semibold font-['Rubik'] hover:underline">(11) 4541-1316</a>
+              <a href="https://wa.me/551145411316" target="_blank" rel="noopener noreferrer" className="text-[#E05829] text-[14px] font-semibold font-['Rubik'] hover:underline">{conteudo.footer_whatsapp_numero}</a>
             </div>
             <div>
               <p className="text-[#003841] text-[14px] font-['Rubik']">Telefone</p>
-              <a href="tel:+551143901-2345" className="text-[#E05829] text-[14px] font-semibold font-['Rubik'] hover:underline">[11] 43901-2345</a>
+              <a href="tel:+551143901-2345" className="text-[#E05829] text-[14px] font-semibold font-['Rubik'] hover:underline">{conteudo.footer_telefone_numero}</a>
             </div>
             <div>
               <p className="text-[#003841] text-[14px] font-['Rubik']">E-mail</p>
-              <a href="mailto:contato@instalsat.com.br" className="text-[#E05829] text-[14px] font-semibold font-['Rubik'] hover:underline">contato@instalsat.com.br</a>
+              <a href="mailto:contato@instalsat.com.br" className="text-[#E05829] text-[14px] font-semibold font-['Rubik'] hover:underline">{conteudo.footer_email}</a>
             </div>
           </div>
         </div>
 
         <div className="border-t border-[#DCE3EC] pt-6 flex flex-col items-center gap-1">
           <p className="text-[#003841] text-[14px] font-['Rubik'] text-center">
-            © 2026 • Instalsat Eletrônica Ltda • 02.515.886/0001-31 • Todos os direitos reservados
+            {conteudo.footer_copyright}
           </p>
           <p className="text-[#003841] text-[14px] font-['Rubik'] text-center">
             Termos de Uso • Desenvolvido por <a href="https://metacube.studio" target="_blank" rel="noopener noreferrer" className="underline hover:text-[#E05829] transition-colors">MetaCube Studio</a>
