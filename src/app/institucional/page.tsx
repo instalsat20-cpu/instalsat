@@ -5,35 +5,13 @@ import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-mot
 import { useEffect, useRef, useState } from "react";
 import { SiteHeader } from "@/components/site-header";
 import { useSiteStats } from "@/lib/use-site-stats";
+import { useClientes, usePessoas, useConteudoInstitucional } from "@/lib/use-site-content";
+import { SocialLinks } from "@/components/ui/social-icons";
+import { ArrowIcon } from "@/components/ui/arrow-icon";
 
 const ease = { duration: 0.3, ease: [0.4, 0, 0.2, 1] as const };
 
-const logos = [
-  "/logos/Company logo.svg",
-  "/logos/Company logo-1.svg",
-  "/logos/Company logo-2.svg",
-  "/logos/Company logo-3.svg",
-  "/logos/Company logo-4.svg",
-  "/logos/Company logo-5.svg",
-];
-
-const pillars = [
-  {
-    title: "Missão",
-    icon: "/institucional/icon-missao.svg",
-    text: "Entregar soluções técnicas seguras e duradouras, com diagnóstico real, execução responsável e presença contínua ao lado de cada cliente.",
-  },
-  {
-    title: "Visão",
-    icon: "/institucional/icon-visao.svg",
-    text: "Ser reconhecida como a empresa de infraestrutura que permanece, referência em confiança, método e relacionamento no estado de São Paulo.",
-  },
-  {
-    title: "Valores",
-    icon: "/institucional/icon-valores.svg",
-    text: "Responsabilidade técnica, transparência, compromisso com o cliente, qualidade sem atalhos e relações construídas para durar.",
-  },
-];
+const pillarIcons = ["/institucional/icon-missao.svg", "/institucional/icon-visao.svg", "/institucional/icon-valores.svg"];
 
 function FadeUp({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -104,14 +82,6 @@ function Eyebrow({ children, dark = false, square = false }: { children: React.R
   );
 }
 
-function ArrowIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-      <path d="M2.5 7h9M8 3.5 11.5 7 8 10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
 function WhatsAppButton({ children }: { children: React.ReactNode }) {
   return (
     <motion.a
@@ -131,7 +101,7 @@ function WhatsAppButton({ children }: { children: React.ReactNode }) {
   );
 }
 
-function Footer() {
+function Footer({ conteudo }: { conteudo: Record<string, string> }) {
   const navigation = ["Início", "Sobre", "Soluções", "Projetos", "Contato", "Solicite uma análise"];
   const solutions = ["Segurança eletrônica", "Instalações elétricas", "Contratos de manutenção"];
 
@@ -140,7 +110,8 @@ function Footer() {
       <div className="mb-12 flex flex-col md:mb-16 md:flex-row md:items-start md:justify-between">
         <div className="flex flex-col gap-4 border-b border-[#DCE3EC] pb-10 md:w-[230px] md:border-0 md:pb-0">
           <Image src="/LOGO.svg" alt="Instalsat" width={160} height={32} className="h-auto" />
-          <p className="text-[16px] font-medium text-[#003841]">A empresa que fica<span className="text-[#E05829]">.</span></p>
+          <p className="text-[16px] font-medium text-[#003841]">{conteudo.footer_tagline}<span className="text-[#E05829]">.</span></p>
+          <SocialLinks />
         </div>
 
         <div className="grid grid-cols-2 gap-8 border-b border-[#DCE3EC] py-10 md:flex md:gap-20 md:border-0 md:py-0">
@@ -162,14 +133,14 @@ function Footer() {
 
         <div className="flex flex-col gap-3 pt-10 md:w-[223px] md:pt-0">
           <p className="text-[18px] font-medium text-[#003841]">Contato</p>
-          <div><p className="text-[14px] text-[#003841]">WhatsApp</p><a href="https://wa.me/551145411316" className="text-[14px] font-semibold text-[#E05829]">(11) 4541-1316</a></div>
-          <div><p className="text-[14px] text-[#003841]">Telefone</p><a href="tel:+5511439012345" className="text-[14px] font-semibold text-[#E05829]">[11] 43901-2345</a></div>
-          <div><p className="text-[14px] text-[#003841]">E-mail</p><a href="mailto:contato@instalsat.com.br" className="text-[14px] font-semibold text-[#E05829]">contato@instalsat.com.br</a></div>
+          <div><p className="text-[14px] text-[#003841]">WhatsApp</p><a href="https://wa.me/551145411316" className="text-[14px] font-semibold text-[#E05829]">{conteudo.footer_whatsapp_numero}</a></div>
+          <div><p className="text-[14px] text-[#003841]">Telefone</p><a href="tel:+5511439012345" className="text-[14px] font-semibold text-[#E05829]">{conteudo.footer_telefone_numero}</a></div>
+          <div><p className="text-[14px] text-[#003841]">E-mail</p><a href="mailto:contato@instalsat.com.br" className="text-[14px] font-semibold text-[#E05829]">{conteudo.footer_email}</a></div>
         </div>
       </div>
 
       <div className="flex flex-col items-center gap-1 border-t border-[#DCE3EC] pt-6 text-center text-[14px] leading-[22px] text-[#003841]">
-        <p>© 2026 • Instalsat Eletrônica Ltda • 02.515.886/0001-31 • Todos os direitos reservados</p>
+        <p>{conteudo.footer_copyright}</p>
         <p>Termos de Uso • Desenvolvido por <a href="https://metacube.studio" target="_blank" rel="noopener noreferrer" className="underline hover:text-[#E05829]">MetaCube Studio</a></p>
       </div>
     </footer>
@@ -178,11 +149,19 @@ function Footer() {
 
 export default function InstitucionalPage() {
   const siteStats = useSiteStats();
+  const conteudo = useConteudoInstitucional();
+  const logos = useClientes();
+  const pessoas = usePessoas();
   const stats = [
     { target: siteStats.anos, prefix: "", suffix: "", label: "anos de mercado" },
     { target: siteStats.clientes, prefix: "+", suffix: " mil", label: "clientes" },
     { target: siteStats.atendimentos, prefix: "+", suffix: " mil", label: "atendimentos/ano" },
     { target: siteStats.contratos, prefix: "+", suffix: "", label: "clientes ativos com contrato recorrente" },
+  ];
+  const pillars = [
+    { title: conteudo.institucional_pilar_1_titulo, icon: pillarIcons[0], text: conteudo.institucional_pilar_1_texto },
+    { title: conteudo.institucional_pilar_2_titulo, icon: pillarIcons[1], text: conteudo.institucional_pilar_2_texto },
+    { title: conteudo.institucional_pilar_3_titulo, icon: pillarIcons[2], text: conteudo.institucional_pilar_3_texto },
   ];
   const [activePillar, setActivePillar] = useState<number | null>(null);
   const logoLoop = [...logos, ...logos, ...logos];
@@ -194,13 +173,13 @@ export default function InstitucionalPage() {
         <SiteHeader activePath="/institucional" />
         <div className="relative z-10 flex flex-col gap-8 px-5 pb-16 pt-10 md:flex-row md:items-end md:justify-between md:px-20 md:pb-14 md:pt-7">
           <motion.div initial={false} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }} className="flex max-w-[655px] flex-col gap-6">
-            <Eyebrow dark square>Sobre a Instalsat</Eyebrow>
+            <Eyebrow dark square>{conteudo.institucional_hero_eyebrow}</Eyebrow>
             <h1 className="text-[36px] font-medium leading-[42px] text-[#DCE3EC] md:text-[40px] md:leading-[46px]">
-              Quase três décadas construindo infraestrutura que funciona<span className="text-[#E05829]">.</span>
+              {conteudo.institucional_hero_titulo}<span className="text-[#E05829]">.</span>
             </h1>
           </motion.div>
           <motion.p initial={false} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.12, ease: [0.4, 0, 0.2, 1] }} className="max-w-[493px] text-[16px] leading-6 text-[#DCE3EC]">
-            Do Grande ABC para todo o estado. Da instalação à manutenção contínua. Da figura do fundador para uma empresa que opera com método, estrutura e presença.
+            {conteudo.institucional_hero_paragrafo}
           </motion.p>
         </div>
       </section>
@@ -213,12 +192,12 @@ export default function InstitucionalPage() {
           <FadeUp delay={0.1} className="flex flex-col gap-3">
             <Eyebrow>Nossa história</Eyebrow>
             <div className="flex flex-col gap-6 text-[#003841]">
-              <h2 className="text-[30px] font-medium leading-[36px] md:text-[40px] md:leading-[46px]">1998. Uma empresa que nasceu resolvendo o que outros não conseguiam<span className="text-[#E05829]">.</span></h2>
+              <h2 className="text-[30px] font-medium leading-[36px] md:text-[40px] md:leading-[46px]">{conteudo.institucional_historia_titulo}<span className="text-[#E05829]">.</span></h2>
               <div className="flex flex-col gap-5 text-[15px] leading-[23px]">
-                <p>A Instalsat foi fundada em Mauá, no Grande ABC paulista, num momento em que segurança eletrônica e infraestrutura elétrica eram territórios separados e mal atendidos. Desde o início, a empresa se recusou a operar com soluções de prateleira. Cada projeto exigia diagnóstico real, proposta construída sob medida e execução técnica sem atalhos.</p>
-                <p>Esse modelo gerou algo raro no setor: clientes que ficaram. Condomínios que renovam contratos há mais de uma década. Administradoras que indicam sem hesitar. Uma reputação construída projeto a projeto, sem marketing, sem site, sem Instagram. Só entrega.</p>
-                <p>Hoje, com mais de 28 anos de operação, a Instalsat passa por um movimento deliberado: transformar a solidez que sempre existiu em algo visível. Estruturar o que já funcionava. Comunicar o que sempre foi verdade.</p>
-                <p>O nome continua. O resto é novo.</p>
+                <p>{conteudo.institucional_historia_paragrafo_1}</p>
+                <p>{conteudo.institucional_historia_paragrafo_2}</p>
+                <p>{conteudo.institucional_historia_paragrafo_3}</p>
+                <p>{conteudo.institucional_historia_paragrafo_4}</p>
               </div>
             </div>
           </FadeUp>
@@ -227,7 +206,7 @@ export default function InstitucionalPage() {
         <div className="relative -mx-5 mt-20 overflow-hidden md:-mx-20 md:mt-[100px]">
           <motion.div className="flex w-max items-center gap-16 opacity-50" animate={{ x: [0, -720] }} transition={{ duration: 22, repeat: Infinity, ease: "linear" }}>
             {logoLoop.map((src, index) => (
-              <div key={`${src}-${index}`} className="relative h-10 w-[150px] shrink-0"><Image src={src} alt="Cliente Instalsat" fill sizes="150px" className="object-contain" /></div>
+              <div key={`${src}-${index}`} className="relative h-10 w-[150px] shrink-0"><img src={src} alt="Cliente Instalsat" className="absolute inset-0 size-full object-contain" /></div>
             ))}
           </motion.div>
         </div>
@@ -253,10 +232,7 @@ export default function InstitucionalPage() {
           </FadeUp>
 
           <div className="grid gap-12 md:grid-cols-2 md:gap-6">
-            {[
-              { name: "Fernando Nunes", role: "Fundador e Consultor Técnico", image: "/institucional/asset-04.jpg", description: "Fundador da Instalsat em 1998, Fernando construiu a reputação da empresa projeto a projeto durante mais de duas décadas. Responsável pelo desenvolvimento técnico e pela expertise que define os padrões de execução da Instalsat até hoje." },
-              { name: "Thiago Nunes", role: "Diretor de Operações", image: "/institucional/asset-06.jpg", description: "Engenheiro elétrico em formação, Thiago lidera a operação comercial e a gestão da Instalsat. Responsável pela estruturação dos processos, expansão do portfólio e pelo relacionamento com administradoras e clientes corporativos." },
-            ].map((person, index) => (
+            {pessoas.map((person, index) => (
               <FadeUp key={person.name} delay={index * 0.1} className="flex flex-col gap-6">
                 <div className="relative flex min-h-[390px] flex-col justify-between overflow-hidden p-4 md:min-h-[439px]">
                   <Image src={person.image} alt={person.name} fill sizes="(max-width: 768px) 100vw, 628px" className="object-cover" />
@@ -305,17 +281,17 @@ export default function InstitucionalPage() {
       <section className="bg-[#EEF5FF] px-5 py-16 md:px-20 md:py-[100px]">
         <FadeUp className="mx-auto flex max-w-[1280px] flex-col items-center gap-10 bg-[#003841] px-5 py-14 text-center md:min-h-[344px] md:justify-center md:px-20">
           <div className="flex max-w-[629px] flex-col items-center gap-4">
-            <h2 className="text-[30px] font-medium leading-[36px] text-[#DCE3EC] md:text-[48px] md:leading-[48px]">Pronto para ter uma empresa que fica<span className="text-[#E05829]">?</span></h2>
-            <p className="text-[15px] leading-[23px] text-[#DCE3EC]">Fale com a Instalsat e entenda como podemos estruturar a segurança e a infraestrutura do seu condomínio ou empresa.</p>
+            <h2 className="text-[30px] font-medium leading-[36px] text-[#DCE3EC] md:text-[48px] md:leading-[48px]">{conteudo.cta_titulo}<span className="text-[#E05829]">?</span></h2>
+            <p className="text-[15px] leading-[23px] text-[#DCE3EC]">{conteudo.cta_paragrafo}</p>
           </div>
           <div className="flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
             <WhatsAppButton>Falar pelo WhatsApp</WhatsAppButton>
-            <motion.a href="/contato" whileHover={{ backgroundColor: "#E05829", color: "#EEF5FF" }} transition={ease} className="flex h-[52px] items-center justify-center gap-3 border border-[#E05829] px-6 text-[15px] font-medium text-[#EEF5FF]">Solicite uma análise<ArrowIcon /></motion.a>
+            <motion.a href="/contato" initial="rest" whileHover="hover" variants={{ rest: { backgroundColor: "rgba(224,88,41,0)", color: "#EEF5FF" }, hover: { backgroundColor: "#E05829", color: "#EEF5FF" } }} transition={ease} className="flex h-[52px] items-center justify-center gap-3 border border-[#E05829] px-6 text-[15px] font-medium">Solicite uma análise<ArrowIcon /></motion.a>
           </div>
         </FadeUp>
       </section>
 
-      <Footer />
+      <Footer conteudo={conteudo} />
     </main>
   );
 }

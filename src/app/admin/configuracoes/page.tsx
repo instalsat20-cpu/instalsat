@@ -21,7 +21,10 @@ const fields = [
   { key: "stat_clientes", label: "Clientes (em milhares)", placeholder: "2", group: "Big numbers — Home e Institucional", type: "number" },
   { key: "stat_atendimentos", label: "Atendimentos/ano (em milhares)", placeholder: "3", group: "Big numbers — Home e Institucional", type: "number" },
   { key: "stat_contratos", label: "Contratos recorrentes", placeholder: "30", group: "Big numbers — Home e Institucional", type: "number" },
+  { key: "contato_email_destino", label: "E-mail de destino do formulário", placeholder: "contato@instalsat.com.br", group: "Formulário de contato" },
 ] as const;
+
+const DOMINIO_PERMITIDO = "@instalsat.com.br";
 
 export default function ConfiguracoesPage() {
   const [values, setValues] = useState<Record<string, string>>({});
@@ -39,6 +42,11 @@ export default function ConfiguracoesPage() {
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const destino = values.contato_email_destino?.trim();
+    if (destino && !destino.toLowerCase().endsWith(DOMINIO_PERMITIDO)) {
+      setMessage(`O e-mail de destino do formulário deve pertencer ao domínio ${DOMINIO_PERMITIDO}.`);
+      return;
+    }
     setSaving(true);
     setMessage(null);
     try {
