@@ -6,7 +6,7 @@ const fields: Field[] = [
   { name: "nome", label: "Nome", required: true },
   { name: "cargo", label: "Cargo", required: true },
   { name: "descricao", label: "Descrição", type: "textarea", required: true },
-  { name: "imagemUrl", label: "Foto", type: "upload", accept: "image/png,image/jpeg,image/webp", help: "PNG, JPG ou WebP." },
+  { name: "imagemUrl", label: "Foto", type: "upload", accept: "image/png,image/jpeg,image/webp", help: "PNG, JPG ou WebP. Retrato, mínimo 1260×880px (proporção ~3:2). Até 3MB.", maxSizeMB: 3, minWidth: 1260, minHeight: 880 },
   { name: "ordem", label: "Ordem", type: "number", help: "Menores números aparecem primeiro." },
   { name: "ativo", label: "Pessoa ativa", type: "toggle" },
 ];

@@ -97,23 +97,36 @@ function Footer({ conteudo }: { conteudo: Record<string, string> }) {
   );
 }
 
-function CaseArrowButton({ direction }: { direction: "left" | "right" }) {
+function CaseArrowButton({ direction, onClick }: { direction: "left" | "right"; onClick: () => void }) {
   return (
-    <div className="flex size-[45px] shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#E05829]">
+    <button type="button" onClick={onClick} aria-label={direction === "left" ? "Mídia anterior" : "Próxima mídia"} className="flex size-[45px] shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#E05829]">
       <Image src="/projetos/carousel-arrow.svg" alt="" width={11} height={12} className={direction === "right" ? "rotate-180" : ""} />
-    </div>
+    </button>
   );
 }
 
 function CaseCard({ item, imageLeft, onShowTestimonial }: { item: ProjetoCaseItem; imageLeft: boolean; onShowTestimonial: (testimonial: Testimonial) => void }) {
+  const slides = item.midias && item.midias.length > 0 ? item.midias : [{ tipo: "imagem" as const, url: item.img }];
+  const [slideIndex, setSlideIndex] = useState(0);
+  const activeSlide = slides[slideIndex];
+
+  const prevSlide = () => setSlideIndex((current) => (current - 1 + slides.length) % slides.length);
+  const nextSlide = () => setSlideIndex((current) => (current + 1) % slides.length);
+
   return (
     <FadeUp className={`flex flex-col gap-8 md:flex-row md:items-center md:gap-[80px] lg:gap-[120px] ${imageLeft ? "" : "md:flex-row-reverse"}`}>
       <div className="relative h-[280px] w-full shrink-0 overflow-hidden bg-[#003841] md:h-[420px] md:w-[45%] lg:h-[547px] lg:w-[634px]">
-        <Image src={item.img} alt={item.title} fill sizes="(max-width: 768px) 100vw, 634px" className="object-cover" />
-        <div className="absolute right-4 top-4 flex items-center gap-3">
-          <CaseArrowButton direction="left" />
-          <CaseArrowButton direction="right" />
-        </div>
+        {activeSlide.tipo === "video" ? (
+          <video src={activeSlide.url} className="size-full object-cover" controls playsInline />
+        ) : (
+          <Image src={activeSlide.url} alt={item.title} fill sizes="(max-width: 768px) 100vw, 634px" className="object-cover" />
+        )}
+        {slides.length > 1 && (
+          <div className="absolute right-4 top-4 flex items-center gap-3">
+            <CaseArrowButton direction="left" onClick={prevSlide} />
+            <CaseArrowButton direction="right" onClick={nextSlide} />
+          </div>
+        )}
       </div>
       <div className="flex flex-col gap-6 md:gap-9">
         <div className="flex flex-col gap-3">
@@ -125,9 +138,23 @@ function CaseCard({ item, imageLeft, onShowTestimonial }: { item: ProjetoCaseIte
             <p key={i}>{p}</p>
           ))}
         </div>
-        {item.testimonial && (
-          <ArrowLink text="Veja o depoimento" onClick={() => onShowTestimonial(item.testimonial!)} />
-        )}
+        <div className="flex flex-wrap items-center gap-6">
+          {item.testimonial && (
+            <motion.button
+              type="button"
+              onClick={() => onShowTestimonial(item.testimonial!)}
+              initial="rest" whileHover="hover"
+              variants={{ rest: { backgroundColor: "#E05829" }, hover: { backgroundColor: "#AD4420" } }}
+              transition={ease}
+              className="flex h-[52px] items-center justify-center px-6 text-[15px] font-medium text-[#EEF5FF]"
+            >
+              Veja o depoimento
+            </motion.button>
+          )}
+          {item.linkDetalhes && (
+            <ArrowLink text="+ detalhes do projeto" href={item.linkDetalhes} target="_blank" rel="noopener noreferrer" />
+          )}
+        </div>
       </div>
     </FadeUp>
   );
