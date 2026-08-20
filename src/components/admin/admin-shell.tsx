@@ -25,6 +25,8 @@ const links = [
   { href: "/admin/projetos", label: "Projetos", icon: "reports" },
   { href: "/admin/processos", label: "Processos", icon: "reports" },
   { href: "/admin/pessoas", label: "Pessoas", icon: "staff" },
+  { href: "/admin/faqs", label: "Perguntas Frequentes", icon: "data" },
+  { href: "/admin/leads", label: "Leads", icon: "reports" },
   { href: "/admin/configuracoes", label: "Configurações", icon: "settings" },
   { href: "/admin/integracoes", label: "Integrações", icon: "data", adminOnly: true },
   { href: "/admin/usuarios", label: "Usuários", icon: "users" },

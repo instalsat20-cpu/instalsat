@@ -1,12 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { Testimonial } from "@/components/ui/testimonial-modal";
 
 type SolucaoItem = { tag: string; title: string; img: string };
 type ProjetoItem = { tag: string; title: string; desc: string; img: string };
 type DepoimentoItem = { quote: string; name: string; role: string; img: string };
 type ProcessoItem = { tag: string; num: string; title: string; desc: string; img: string };
 type PessoaItem = { name: string; role: string; image: string; description: string };
+type FaqItem = { question: string; answer: string };
+export type ProjetoCaseItem = { tag: string; title: string; img: string; paragraphs: string[]; testimonial?: Testimonial };
 
 const imgSeguranca = "https://www.figma.com/api/mcp/asset/2b52e036-221e-4f5a-8778-1cc8b79efa43.png";
 const imgEletrica = "https://www.figma.com/api/mcp/asset/d3e2eeae-0a96-4f8a-ba1a-81d8db3d0e80.png";
@@ -92,7 +95,98 @@ export const DEFAULT_CONTEUDO_INSTITUCIONAL: Record<string, string> = {
   footer_telefone_numero: "[11] 43901-2345",
   footer_email: "contato@instalsat.com.br",
   footer_copyright: "© 2026 • Instalsat Eletrônica Ltda • 02.515.886/0001-31 • Todos os direitos reservados",
+
+  projetos_hero_eyebrow: "Projetos realizados",
+  projetos_hero_titulo_1: "Infraestrutura que funciona",
+  projetos_hero_titulo_2: "Projetos que ficam",
+  projetos_hero_paragrafo: "Cada projeto começa por um diagnóstico real e termina com uma estrutura que a Instalsat continua acompanhando. Aqui estão alguns dos trabalhos que executamos para condomínios, administradoras e empresas da região.",
+
+  contato_hero_eyebrow: "Entre em contato",
+  contato_hero_titulo: "Antes de falar com a gente, talvez a resposta já esteja aqui",
+  contato_hero_paragrafo: "Reunimos as dúvidas mais comuns de quem está conhecendo a Instalsat. Se não encontrar o que precisa, use o formulário ou fale direto pelo WhatsApp.",
 };
+
+const testimonialMauaSP: Testimonial = {
+  photo: "/projetos/testimonial-patricia.jpg",
+  name: "Patricia Lima",
+  role: "Síndica, Condomínio Residencial",
+  project: "Condomínio Residencial, Mauá SP",
+  quote: "\"Antes da Instalsat, cada problema virava uma dor de cabeça diferente. Hoje eu sei que tem alguém responsável por tudo isso. A tranquilidade que isso traz para a gestão do condomínio não tem preço.\"",
+};
+
+export const DEFAULT_PROJETOS_CASES: ProjetoCaseItem[] = [
+  {
+    tag: "Segurança Eletrônica",
+    title: "Condomínio Residencial, Mauá SP",
+    img: "/projetos/case-01.png",
+    paragraphs: [
+      "O condomínio enfrentava problemas recorrentes de segurança perimetral e não tinha visibilidade sobre o fluxo de entrada e saída de veículos e visitantes. A administradora buscava uma solução integrada que eliminasse pontos cegos e reduzisse a dependência de porteiros para o controle de acesso.",
+      "A Instalsat realizou o diagnóstico completo da infraestrutura existente e propôs a implantação de um sistema de CFTV com inteligência artificial, capaz de identificar rostos e placas em tempo real. O projeto incluiu ainda controle de acesso facial nas entradas sociais e automação completa do portão de veículos. Desde a entrega, a Instalsat mantém contrato de manutenção recorrente, com visitas programadas e atendimento prioritário para chamados.",
+    ],
+    testimonial: testimonialMauaSP,
+  },
+  {
+    tag: "Instalações Elétricas",
+    title: "Condomínio Comercial, Santo André SP",
+    img: "/projetos/case-04.png",
+    paragraphs: [
+      "Com uma infraestrutura elétrica antiga e fora das normas vigentes, o condomínio corria riscos técnicos e legais que comprometiam a operação dos lojistas e a segurança do edifício. A administradora precisava de uma empresa que assumisse o projeto com responsabilidade técnica total, da documentação à execução. A Instalsat desenvolveu o projeto elétrico completo, substituiu o painel de distribuição principal e executou a infraestrutura de baixa tensão em todas as áreas comuns. Todo o trabalho foi entregue dentro do prazo acordado, acompanhado de documentação técnica completa e emissão de ART. O condomínio opera hoje dentro das normas e com um sistema elétrico dimensionado para os próximos anos.",
+    ],
+  },
+  {
+    tag: "Manutenção Predial",
+    title: "Condomínio Residencial, São Bernardo do Campo SP",
+    img: "/projetos/case-02.png",
+    paragraphs: [
+      "A síndica profissional responsável pelo condomínio tinha um histórico frustrante com prestadores que atendiam bem no início e sumiam após os primeiros meses. Ela buscava um parceiro que assumisse a manutenção com método e previsibilidade, sem surpresas no orçamento nem espera longa para atendimento. A Instalsat assumiu o contrato de manutenção nas modalidades corretiva, preventiva e preditiva, cobrindo todos os sistemas elétricos e eletrônicos do condomínio. Com visitas programadas mensalmente e relatórios de acompanhamento a cada ciclo, a gestão da síndica passou a ter visibilidade total sobre o estado da infraestrutura. A parceria está ativa há mais de três anos, com renovação contratual consecutiva.",
+    ],
+  },
+  {
+    tag: "Segurança Eletrônica",
+    title: "Empresa de Reciclagem, Grande ABC",
+    img: "/projetos/case-05.png",
+    paragraphs: [
+      "A empresa operava em uma área industrial com alto fluxo de veículos pesados e colaboradores em turnos alternados, sem nenhum sistema estruturado de monitoramento ou controle de acesso. A ausência de registro de entrada e saída gerava problemas operacionais e riscos de segurança que impactavam diretamente a operação. A Instalsat projetou e implantou um sistema de alarme perimetral com barreiras de infravermelho e cercas elétricas de alta confiabilidade, cobrindo todo o perímetro da área industrial. O controle de acesso foi implementado com tecnologia RFID para leitura automática de tags de frotas e crachás de colaboradores. O sistema de CFTV instalado permite monitoramento remoto em tempo real de qualquer dispositivo conectado à internet.",
+    ],
+  },
+  {
+    tag: "Manutenção Predial",
+    title: "Condomínio Residencial, Mauá SP",
+    img: "/projetos/case-03.png",
+    paragraphs: [
+      "O condomínio apresentava falhas recorrentes no sistema de iluminação de emergência e portões com manutenção irregular, problemas que geravam reclamações constantes dos moradores e preocupação da administração com conformidade legal. A cada falha, o processo de contratação de um prestador avulso consumia tempo e gerava custos imprevisíveis.",
+      "A Instalsat realizou a modernização completa do sistema de iluminação de emergência, substituindo equipamentos obsoletos e adequando as instalações às normas técnicas vigentes. Os portões de veículos passaram por revisão geral com troca de componentes desgastados e ajuste de automação. Com o contrato de manutenção preventiva em vigor, as visitas são programadas e o atendimento de chamados ocorre em até 24 horas, eliminando as surpresas que comprometiam o orçamento do condomínio.",
+    ],
+    testimonial: testimonialMauaSP,
+  },
+];
+
+export const DEFAULT_FAQS: FaqItem[] = [
+  {
+    question: "Qual é a área de atendimento da Instalsat?",
+    answer: "Atendemos condomínios, administradoras e empresas em todo o Grande ABC e, para contratos de manutenção recorrente, em diversas regiões do estado de São Paulo.",
+  },
+  {
+    question: "Como funciona o processo para contratar um serviço?",
+    answer: "Começamos com uma visita técnica para diagnóstico real da estrutura. A partir disso, montamos uma proposta sob medida — nunca uma tabela genérica — e, após aprovação, seguimos com execução acompanhada e documentação técnica completa.",
+  },
+  {
+    question: "A Instalsat atende chamados de emergência?",
+    answer: "Sim. Clientes com contrato de manutenção recorrente têm atendimento prioritário, com prazo de resposta de até 24 horas para chamados urgentes.",
+  },
+  {
+    question: "Vocês trabalham com contratos de manutenção recorrente?",
+    answer: "Sim, é uma das nossas principais frentes. Trabalhamos com manutenção corretiva, preventiva e preditiva, com visitas programadas e relatórios de acompanhamento a cada ciclo.",
+  },
+  {
+    question: "Qual o prazo médio de resposta após o contato?",
+    answer: "Nosso time normalmente responde em até 1 dia útil para agendar a visita técnica de diagnóstico inicial.",
+  },
+  {
+    question: "A Instalsat fornece laudo técnico e ART?",
+    answer: "Sim. Todos os projetos de instalação elétrica são entregues com documentação técnica completa e emissão de ART, garantindo conformidade legal e segurança para o cliente.",
+  },
+];
 
 function useFetchedList<TDb, TLocal>(endpoint: string, fallback: TLocal[], map: (item: TDb) => TLocal) {
   const [data, setData] = useState<TLocal[]>(fallback);
@@ -159,6 +253,30 @@ export function usePessoas() {
     "/api/pessoas",
     DEFAULT_PESSOAS,
     (item) => ({ name: item.nome, role: item.cargo, description: item.descricao, image: item.imagemUrl || "" })
+  );
+}
+
+export function useFaqs() {
+  return useFetchedList<{ pergunta: string; resposta: string }, FaqItem>(
+    "/api/faq",
+    DEFAULT_FAQS,
+    (item) => ({ question: item.pergunta, answer: item.resposta })
+  );
+}
+
+export function useProjetosCases() {
+  return useFetchedList<{ categoria: string; titulo: string; descricao: string; imagemUrl: string | null; depoimento: { texto: string; nome: string; cargo: string; fotoUrl: string | null } | null }, ProjetoCaseItem>(
+    "/api/projetos-cases",
+    DEFAULT_PROJETOS_CASES,
+    (item) => ({
+      tag: item.categoria,
+      title: item.titulo,
+      img: item.imagemUrl || "",
+      paragraphs: item.descricao.split("\n\n"),
+      testimonial: item.depoimento
+        ? { photo: item.depoimento.fotoUrl || "", name: item.depoimento.nome, role: item.depoimento.cargo, project: item.titulo, quote: item.depoimento.texto }
+        : undefined,
+    })
   );
 }
 

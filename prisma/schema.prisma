@@ -49,16 +49,17 @@ model Invite {
 }
 
 model Depoimento {
-  id         String   @id @default(cuid())
+  id         String    @id @default(cuid())
   texto      String
   nome       String
   cargo      String
   fotoUrl    String?
   linkGoogle String?
-  ativo      Boolean  @default(true)
-  ordem      Int      @default(0)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  ativo      Boolean   @default(true)
+  ordem      Int       @default(0)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  projetos   Projeto[]
 }
 
 model Cliente {
@@ -87,16 +88,18 @@ model Solucao {
 }
 
 model Projeto {
-  id           String   @id @default(cuid())
+  id           String      @id @default(cuid())
   categoria    String
   titulo       String
   descricao    String
   imagemUrl    String?
-  destaqueHome Boolean  @default(false)
-  ativo        Boolean  @default(true)
-  ordem        Int      @default(0)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  destaqueHome Boolean     @default(false)
+  ativo        Boolean     @default(true)
+  ordem        Int         @default(0)
+  depoimentoId String?
+  depoimento   Depoimento? @relation(fields: [depoimentoId], references: [id])
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 }
 
 model Processo {
@@ -134,6 +137,29 @@ model BlocoConteudo {
   label     String
   grupo     String
   updatedAt DateTime @updatedAt
+}
+
+model Faq {
+  id        String   @id @default(cuid())
+  pergunta  String
+  resposta  String
+  ativo     Boolean  @default(true)
+  ordem     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Lead {
+  id            String   @id @default(cuid())
+  nome          String
+  email         String
+  telefone      String?
+  cidade        String?
+  estado        String?
+  assunto       String?
+  mensagem      String?
+  emailEnviado  Boolean  @default(false)
+  createdAt     DateTime @default(now())
 }
 
 model Configuracao {

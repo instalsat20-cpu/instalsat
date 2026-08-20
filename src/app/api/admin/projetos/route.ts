@@ -35,6 +35,7 @@ export async function POST(request: Request) {
       destaqueHome: body.destaqueHome ?? false,
       ativo: body.ativo ?? true,
       ordem: body.ordem ?? 0,
+      depoimentoId: body.depoimentoId || null,
     },
   });
   return Response.json(projeto, { status: 201 });

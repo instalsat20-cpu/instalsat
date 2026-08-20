@@ -20,6 +20,11 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json();
 
+  const destino = typeof body.contato_email_destino === "string" ? body.contato_email_destino.trim() : "";
+  if (destino && !destino.toLowerCase().endsWith("@instalsat.com.br")) {
+    return Response.json({ error: "O e-mail de destino do formulário deve pertencer ao domínio @instalsat.com.br" }, { status: 400 });
+  }
+
   const updates = await Promise.all(
     Object.entries(body).map(([chave, valor]) =>
       prisma.configuracao.upsert({

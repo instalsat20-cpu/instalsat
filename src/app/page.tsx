@@ -7,16 +7,8 @@ import { SiteHeader } from "@/components/site-header";
 import { useSiteStats } from "@/lib/use-site-stats";
 import { useSolucoesDestaque, useProjetosDestaque, useClientes, useDepoimentos, useProcessos, useConteudoInstitucional } from "@/lib/use-site-content";
 import { ArrowLink } from "@/components/ui/arrow-link";
+import { ArrowIcon } from "@/components/ui/arrow-icon";
 import { SocialLinks } from "@/components/ui/social-icons";
-
-function ArrowRightIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className={`shrink-0 ${className}`} xmlns="http://www.w3.org/2000/svg">
-      <path d="M2.917 7H11.083" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M7 2.917L11.083 7L7 11.083" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
 
 const ease = { duration: 0.3, ease: [0.4, 0, 0.2, 1] };
 const CARD_WIDTH = 302;
@@ -83,20 +75,25 @@ function BtPrimary({ text, className = "" }: { text: string; className?: string 
 
 function BtPrimaryArrow({ text, className = "" }: { text: string; className?: string }) {
   return (
-    <motion.button whileHover={{ backgroundColor: "#AD4420" }} transition={ease}
-      className={`bg-[#E05829] h-[52px] px-6 flex items-center gap-3 text-[#EEF5FF] text-[15px] font-medium font-['Rubik'] whitespace-nowrap cursor-pointer ${className}`}>
+    <motion.button initial="rest" whileHover="hover"
+      variants={{ rest: { backgroundColor: "#E05829" }, hover: { backgroundColor: "#AD4420" } }}
+      transition={ease}
+      className={`h-[52px] px-6 flex items-center gap-3 text-[#EEF5FF] text-[15px] font-medium font-['Rubik'] whitespace-nowrap cursor-pointer ${className}`}>
       {text}
-      <ArrowRightIcon />
+      <ArrowIcon />
     </motion.button>
   );
 }
 
 function BtOutlineArrow({ text, dark = true }: { text: string; dark?: boolean }) {
+  const restColor = dark ? "#EEF5FF" : "#003841";
   return (
-    <motion.button whileHover={{ backgroundColor: "#E05829", color: "#EEF5FF" }} transition={ease}
-      className={`border border-[#E05829] h-[52px] px-6 flex items-center gap-3 text-[15px] font-medium font-['Rubik'] whitespace-nowrap cursor-pointer ${dark ? "text-[#EEF5FF]" : "text-[#003841]"}`}>
+    <motion.button initial="rest" whileHover="hover"
+      variants={{ rest: { backgroundColor: "rgba(224,88,41,0)", color: restColor }, hover: { backgroundColor: "#E05829", color: "#EEF5FF" } }}
+      transition={ease}
+      className="border border-[#E05829] h-[52px] px-6 flex items-center gap-3 text-[15px] font-medium font-['Rubik'] whitespace-nowrap cursor-pointer">
       {text}
-      <ArrowRightIcon />
+      <ArrowIcon restColor={restColor} />
     </motion.button>
   );
 }
@@ -486,7 +483,7 @@ export default function Home() {
             style={{ width: "max-content" }}>
             {row1.map((src, i) => (
               <div key={i} className="h-[40px] w-[120px] md:w-[140px] relative shrink-0">
-                <Image src={src} alt={`Cliente ${i}`} fill className="object-contain" />
+                <img src={src} alt={`Cliente ${i}`} className="absolute inset-0 size-full object-contain" />
               </div>
             ))}
           </motion.div>
@@ -498,7 +495,7 @@ export default function Home() {
             style={{ width: "max-content" }}>
             {row2.map((src, i) => (
               <div key={i} className="h-[40px] w-[120px] md:w-[140px] relative shrink-0">
-                <Image src={src} alt={`Cliente ${i}`} fill className="object-contain" />
+                <img src={src} alt={`Cliente ${i}`} className="absolute inset-0 size-full object-contain" />
               </div>
             ))}
           </motion.div>

@@ -6,35 +6,10 @@ import { useRef, useState } from "react";
 import { SiteHeader } from "@/components/site-header";
 import { Dropdown } from "@/components/ui/dropdown";
 import { SocialLinks } from "@/components/ui/social-icons";
+import { ArrowIcon } from "@/components/ui/arrow-icon";
+import { useConteudoInstitucional, useFaqs } from "@/lib/use-site-content";
 
 const ease = { duration: 0.3, ease: [0.4, 0, 0.2, 1] as const };
-
-const faqs = [
-  {
-    question: "Qual é a área de atendimento da Instalsat?",
-    answer: "Atendemos condomínios, administradoras e empresas em todo o Grande ABC e, para contratos de manutenção recorrente, em diversas regiões do estado de São Paulo.",
-  },
-  {
-    question: "Como funciona o processo para contratar um serviço?",
-    answer: "Começamos com uma visita técnica para diagnóstico real da estrutura. A partir disso, montamos uma proposta sob medida — nunca uma tabela genérica — e, após aprovação, seguimos com execução acompanhada e documentação técnica completa.",
-  },
-  {
-    question: "A Instalsat atende chamados de emergência?",
-    answer: "Sim. Clientes com contrato de manutenção recorrente têm atendimento prioritário, com prazo de resposta de até 24 horas para chamados urgentes.",
-  },
-  {
-    question: "Vocês trabalham com contratos de manutenção recorrente?",
-    answer: "Sim, é uma das nossas principais frentes. Trabalhamos com manutenção corretiva, preventiva e preditiva, com visitas programadas e relatórios de acompanhamento a cada ciclo.",
-  },
-  {
-    question: "Qual o prazo médio de resposta após o contato?",
-    answer: "Nosso time normalmente responde em até 1 dia útil para agendar a visita técnica de diagnóstico inicial.",
-  },
-  {
-    question: "A Instalsat fornece laudo técnico e ART?",
-    answer: "Sim. Todos os projetos de instalação elétrica são entregues com documentação técnica completa e emissão de ART, garantindo conformidade legal e segurança para o cliente.",
-  },
-];
 
 const assuntos = ["Segurança Eletrônica", "Instalações Elétricas", "Contratos de Manutenção", "Outro Assunto"];
 
@@ -58,14 +33,6 @@ function Eyebrow({ children, dark = false, square = false }: { children: React.R
   );
 }
 
-function ArrowIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" className={className}>
-      <path d="M2.5 7h9M8 3.5 11.5 7 8 10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
 function ChevronIcon({ open }: { open: boolean }) {
   return (
     <motion.span animate={{ rotate: open ? -90 : 90 }} transition={ease} className="flex size-4 shrink-0 items-center justify-center">
@@ -74,7 +41,7 @@ function ChevronIcon({ open }: { open: boolean }) {
   );
 }
 
-function Footer() {
+function Footer({ conteudo }: { conteudo: Record<string, string> }) {
   const navigation = ["Início", "Sobre", "Soluções", "Projetos", "Contato", "Solicite uma análise"];
   const solutions = ["Segurança eletrônica", "Instalações elétricas", "Contratos de manutenção"];
 
@@ -83,7 +50,7 @@ function Footer() {
       <div className="mb-12 flex flex-col md:mb-16 md:flex-row md:items-start md:justify-between">
         <div className="flex flex-col gap-4 border-b border-[#DCE3EC] pb-10 md:w-[230px] md:border-0 md:pb-0">
           <Image src="/LOGO.svg" alt="Instalsat" width={160} height={32} className="h-auto" />
-          <p className="text-[16px] font-medium text-[#003841]">A empresa que fica<span className="text-[#E05829]">.</span></p>
+          <p className="text-[16px] font-medium text-[#003841]">{conteudo.footer_tagline}<span className="text-[#E05829]">.</span></p>
           <SocialLinks />
         </div>
 
@@ -106,21 +73,21 @@ function Footer() {
 
         <div className="flex flex-col gap-3 pt-10 md:w-[223px] md:pt-0">
           <p className="text-[18px] font-medium text-[#003841]">Contato</p>
-          <div><p className="text-[14px] text-[#003841]">WhatsApp</p><a href="https://wa.me/551145411316" className="text-[14px] font-semibold text-[#E05829]">(11) 4541-1316</a></div>
-          <div><p className="text-[14px] text-[#003841]">Telefone</p><a href="tel:+5511439012345" className="text-[14px] font-semibold text-[#E05829]">[11] 43901-2345</a></div>
-          <div><p className="text-[14px] text-[#003841]">E-mail</p><a href="mailto:contato@instalsat.com.br" className="text-[14px] font-semibold text-[#E05829]">contato@instalsat.com.br</a></div>
+          <div><p className="text-[14px] text-[#003841]">WhatsApp</p><a href="https://wa.me/551145411316" className="text-[14px] font-semibold text-[#E05829]">{conteudo.footer_whatsapp_numero}</a></div>
+          <div><p className="text-[14px] text-[#003841]">Telefone</p><a href="tel:+5511439012345" className="text-[14px] font-semibold text-[#E05829]">{conteudo.footer_telefone_numero}</a></div>
+          <div><p className="text-[14px] text-[#003841]">E-mail</p><a href="mailto:contato@instalsat.com.br" className="text-[14px] font-semibold text-[#E05829]">{conteudo.footer_email}</a></div>
         </div>
       </div>
 
       <div className="flex flex-col items-center gap-1 border-t border-[#DCE3EC] pt-6 text-center text-[14px] leading-[22px] text-[#003841]">
-        <p>© 2026 • Instalsat Eletrônica Ltda • 02.515.886/0001-31 • Todos os direitos reservados</p>
+        <p>{conteudo.footer_copyright}</p>
         <p>Termos de Uso • Desenvolvido por <a href="https://metacube.studio" target="_blank" rel="noopener noreferrer" className="underline hover:text-[#E05829]">MetaCube Studio</a></p>
       </div>
     </footer>
   );
 }
 
-function FaqItem({ item, open, onToggle }: { item: (typeof faqs)[number]; open: boolean; onToggle: () => void }) {
+function FaqItem({ item, open, onToggle }: { item: { question: string; answer: string }; open: boolean; onToggle: () => void }) {
   return (
     <div className="border-b border-[#969BA1]">
       <button type="button" onClick={onToggle} className="flex w-full items-center justify-between gap-4 py-4 pl-6 pr-4 text-left" aria-expanded={open}>
@@ -156,25 +123,33 @@ export default function ContatoPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [form, setForm] = useState({ nome: "", telefone: "", email: "", cidade: "", estado: "", assunto: "", mensagem: "" });
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const conteudo = useConteudoInstitucional();
+  const faqs = useFaqs();
 
   const handleChange = (field: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setForm((prev) => ({ ...prev, [field]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const lines = [
-      "Olá, gostaria de falar com a Instalsat.",
-      form.nome && `Nome: ${form.nome}`,
-      form.telefone && `Telefone: ${form.telefone}`,
-      form.email && `E-mail: ${form.email}`,
-      (form.cidade || form.estado) && `Local: ${[form.cidade, form.estado].filter(Boolean).join(" - ")}`,
-      form.assunto && `Assunto: ${form.assunto}`,
-      form.mensagem && `Mensagem: ${form.mensagem}`,
-    ].filter(Boolean);
-
-    window.open(`https://wa.me/551145411316?text=${encodeURIComponent(lines.join("\n"))}`, "_blank", "noopener,noreferrer");
-    setSent(true);
+    setSending(true);
+    setError(null);
+    try {
+      const response = await fetch("/api/contato", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!response.ok) throw new Error();
+      setSent(true);
+      setForm({ nome: "", telefone: "", email: "", cidade: "", estado: "", assunto: "", mensagem: "" });
+    } catch {
+      setError("Não foi possível enviar sua mensagem. Tente novamente ou fale pelo WhatsApp.");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -184,13 +159,13 @@ export default function ContatoPage() {
         <SiteHeader activePath="/contato" />
         <div className="relative z-10 flex flex-col gap-8 px-5 pb-16 pt-10 md:flex-row md:items-end md:justify-between md:px-20 md:pb-14 md:pt-7">
           <motion.div initial={false} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }} className="flex max-w-[655px] flex-col gap-6">
-            <Eyebrow dark square>Entre em contato</Eyebrow>
+            <Eyebrow dark square>{conteudo.contato_hero_eyebrow}</Eyebrow>
             <h1 className="text-[32px] font-medium leading-[38px] text-[#DCE3EC] md:text-[40px] md:leading-[46px]">
-              Antes de falar com a gente, talvez a resposta já esteja aqui<span className="text-[#E05829]">.</span>
+              {conteudo.contato_hero_titulo}<span className="text-[#E05829]">.</span>
             </h1>
           </motion.div>
           <motion.p initial={false} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.12, ease: [0.4, 0, 0.2, 1] }} className="max-w-[493px] text-[16px] leading-6 text-[#DCE3EC]">
-            Reunimos as dúvidas mais comuns de quem está conhecendo a Instalsat. Se não encontrar o que precisa, use o formulário ou fale direto pelo WhatsApp.
+            {conteudo.contato_hero_paragrafo}
           </motion.p>
         </div>
       </section>
@@ -212,9 +187,9 @@ export default function ContatoPage() {
       <section className="bg-[#DCE3EC] px-5 py-10 md:px-20">
         <div className="mx-auto grid max-w-[1280px] gap-3 md:grid-cols-3">
           {[
-            { icon: "/contato/icon-whatsapp-lg.svg", label: "WhatsApp", value: "(11) 4541-1316", href: "https://wa.me/551145411316" },
-            { icon: "/contato/icon-phone-lg.svg", label: "Telefone", value: "[11] 43901-2345", href: "tel:+5511439012345" },
-            { icon: "/contato/icon-email-lg.svg", label: "E-mail", value: "contato@instalsat.com.br", href: "mailto:contato@instalsat.com.br" },
+            { icon: "/contato/icon-whatsapp-lg.svg", label: "WhatsApp", value: conteudo.footer_whatsapp_numero, href: "https://wa.me/551145411316" },
+            { icon: "/contato/icon-phone-lg.svg", label: "Telefone", value: conteudo.footer_telefone_numero, href: "tel:+5511439012345" },
+            { icon: "/contato/icon-email-lg.svg", label: "E-mail", value: conteudo.footer_email, href: "mailto:contato@instalsat.com.br" },
           ].map((card) => (
             <a key={card.label} href={card.href} target={card.href.startsWith("http") ? "_blank" : undefined} rel={card.href.startsWith("http") ? "noopener noreferrer" : undefined} className="flex items-center gap-4 border border-[#969BA1] p-4 md:gap-6 md:p-6">
               <Image src={card.icon} alt="" width={44} height={44} className="size-10 shrink-0 md:size-11" />
@@ -274,16 +249,17 @@ export default function ContatoPage() {
               <textarea required placeholder="Mensagem" rows={5} value={form.mensagem} onChange={handleChange("mensagem")} className="w-full resize-none bg-transparent text-[16px] text-[#003841] placeholder:text-[#969BA1] focus:outline-none" />
             </div>
 
-            <motion.button type="submit" whileHover={{ backgroundColor: "#AD4420" }} transition={ease} className="flex h-[52px] w-full items-center justify-between bg-[#E05829] px-6 text-[15px] font-medium text-[#EEF5FF]">
-              Enviar
+            <motion.button type="submit" disabled={sending} initial="rest" whileHover="hover" variants={{ rest: { backgroundColor: "#E05829" }, hover: { backgroundColor: "#AD4420" } }} transition={ease} className="flex h-[52px] w-full items-center justify-between px-6 text-[15px] font-medium text-[#EEF5FF] disabled:opacity-70">
+              {sending ? "Enviando..." : "Enviar"}
               <ArrowIcon />
             </motion.button>
-            {sent && <p className="text-[14px] text-[#128C7E]">Abrimos o WhatsApp com sua mensagem pronta para envio.</p>}
+            {sent && <p className="text-[14px] text-[#128C7E]">Mensagem enviada com sucesso. Em breve entraremos em contato.</p>}
+            {error && <p className="text-[14px] text-red-700">{error}</p>}
           </form>
         </FadeUp>
       </section>
 
-      <Footer />
+      <Footer conteudo={conteudo} />
     </main>
   );
 }

@@ -2,7 +2,7 @@
 
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { PageHeader } from "@/components/admin/page-header";
-import { AdminCheckbox, AdminIcon, AdminSidePanel } from "@/components/admin/admin-ui";
+import { AdminCheckbox, AdminDropdown, AdminIcon, AdminSidePanel } from "@/components/admin/admin-ui";
 
 type Value = string | number | boolean | null;
 type Item = Record<string, unknown> & { id: string; ativo?: boolean; ordem?: number; destaqueHome?: boolean };
@@ -10,11 +10,12 @@ type Item = Record<string, unknown> & { id: string; ativo?: boolean; ordem?: num
 export type Field = {
   name: string;
   label: string;
-  type?: "text" | "textarea" | "url" | "number" | "toggle" | "upload";
+  type?: "text" | "textarea" | "url" | "number" | "toggle" | "upload" | "select";
   required?: boolean;
   placeholder?: string;
   accept?: string;
   help?: string;
+  options?: { value: string; label: string }[];
 };
 
 export type Column = { key: string; label: string; kind?: "text" | "image" | "status" | "highlight" | "order" };
@@ -216,6 +217,7 @@ export function CmsManager({ endpoint, eyebrow, title, description, singular, fi
               {fields.map((field) => {
                 const value = form[field.name];
                 if (field.type === "toggle") return <div key={field.name} className="admin-surface flex min-h-16 items-center justify-between px-4 sm:col-span-2"><span>{field.help ? <span className="block text-[12px] text-[#63777B]">{field.help}</span> : null}</span><AdminCheckbox label={field.label} checked={Boolean(value)} onChange={(event) => setForm((current) => ({ ...current, [field.name]: event.target.checked }))} /></div>;
+                if (field.type === "select") return <div key={field.name}><AdminDropdown label={`${field.label}${field.required ? " *" : ""}`} value={String(value ?? "")} options={field.options ?? []} onChange={(next) => setForm((current) => ({ ...current, [field.name]: next }))} placeholder={field.placeholder} /></div>;
                 if (field.type === "upload") return <div key={field.name} className="sm:col-span-2"><label className="mb-2 block text-[13px] font-medium text-[#003841]">{field.label}{field.required ? " *" : ""}</label><div className="flex flex-col gap-3 border border-dashed border-[#9DB0B5] bg-white p-4 sm:flex-row sm:items-center"><div className="grid h-24 w-full shrink-0 place-items-center bg-[#EEF5FF] sm:w-32">{typeof value === "string" && value ? <div className="h-full w-full bg-contain bg-center bg-no-repeat" style={{ backgroundImage: `url(${JSON.stringify(value)})` }} /> : <span className="text-[12px] text-[#829397]">Preview</span>}</div><div><input type="file" accept={field.accept || "image/*"} onChange={(event) => upload(field, event.target.files?.[0])} className="block max-w-full text-[12px] text-[#52666A] file:mr-3 file:border-0 file:bg-[#003841] file:px-4 file:py-2 file:text-white" /><p className="mt-2 text-[12px] text-[#63777B]">{uploading === field.name ? "Enviando..." : field.help || "Selecione uma imagem."}</p></div></div></div>;
                 return <label key={field.name} className={field.type === "textarea" ? "sm:col-span-2" : ""}><span className="mb-2 block text-[13px] font-medium text-[#003841]">{field.label}{field.required ? " *" : ""}</span>{field.type === "textarea" ? <textarea required={field.required} value={String(value ?? "")} onChange={(event) => setForm((current) => ({ ...current, [field.name]: event.target.value }))} placeholder={field.placeholder} rows={5} className="admin-field resize-y py-3" /> : <input type={field.type === "number" ? "number" : field.type === "url" ? "url" : "text"} required={field.required} value={String(value ?? "")} onChange={(event) => setForm((current) => ({ ...current, [field.name]: field.type === "number" ? Number(event.target.value) : event.target.value }))} placeholder={field.placeholder} className="admin-field h-[52px]" />}{field.help ? <span className="mt-1 block text-[11px] text-[#63777B]">{field.help}</span> : null}</label>;
               })}

@@ -7,6 +7,7 @@ import { SiteHeader } from "@/components/site-header";
 import { useSiteStats } from "@/lib/use-site-stats";
 import { useClientes, usePessoas, useConteudoInstitucional } from "@/lib/use-site-content";
 import { SocialLinks } from "@/components/ui/social-icons";
+import { ArrowIcon } from "@/components/ui/arrow-icon";
 
 const ease = { duration: 0.3, ease: [0.4, 0, 0.2, 1] as const };
 
@@ -78,14 +79,6 @@ function Eyebrow({ children, dark = false, square = false }: { children: React.R
       {square && <span className="size-2 shrink-0 bg-[#E05829]" />}
       <span className="whitespace-nowrap">{children}</span>
     </div>
-  );
-}
-
-function ArrowIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-      <path d="M2.5 7h9M8 3.5 11.5 7 8 10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
   );
 }
 
@@ -213,7 +206,7 @@ export default function InstitucionalPage() {
         <div className="relative -mx-5 mt-20 overflow-hidden md:-mx-20 md:mt-[100px]">
           <motion.div className="flex w-max items-center gap-16 opacity-50" animate={{ x: [0, -720] }} transition={{ duration: 22, repeat: Infinity, ease: "linear" }}>
             {logoLoop.map((src, index) => (
-              <div key={`${src}-${index}`} className="relative h-10 w-[150px] shrink-0"><Image src={src} alt="Cliente Instalsat" fill sizes="150px" className="object-contain" /></div>
+              <div key={`${src}-${index}`} className="relative h-10 w-[150px] shrink-0"><img src={src} alt="Cliente Instalsat" className="absolute inset-0 size-full object-contain" /></div>
             ))}
           </motion.div>
         </div>
@@ -293,7 +286,7 @@ export default function InstitucionalPage() {
           </div>
           <div className="flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
             <WhatsAppButton>Falar pelo WhatsApp</WhatsAppButton>
-            <motion.a href="/contato" whileHover={{ backgroundColor: "#E05829", color: "#EEF5FF" }} transition={ease} className="flex h-[52px] items-center justify-center gap-3 border border-[#E05829] px-6 text-[15px] font-medium text-[#EEF5FF]">Solicite uma análise<ArrowIcon /></motion.a>
+            <motion.a href="/contato" initial="rest" whileHover="hover" variants={{ rest: { backgroundColor: "rgba(224,88,41,0)", color: "#EEF5FF" }, hover: { backgroundColor: "#E05829", color: "#EEF5FF" } }} transition={ease} className="flex h-[52px] items-center justify-center gap-3 border border-[#E05829] px-6 text-[15px] font-medium">Solicite uma análise<ArrowIcon /></motion.a>
           </div>
         </FadeUp>
       </section>

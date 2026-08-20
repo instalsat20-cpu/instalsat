@@ -1,16 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { ArrowIcon } from "@/components/ui/arrow-icon";
 
 const ease = { duration: 0.3, ease: [0.4, 0, 0.2, 1] as const };
-
-function ChevronMark() {
-  return (
-    <svg width="8" height="14" viewBox="0 0 8 14" fill="none" className="shrink-0" aria-hidden="true">
-      <path d="M1 1l6 6-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
 
 type ArrowLinkProps = {
   text: string;
@@ -34,8 +27,7 @@ export function ArrowLink({ text, href, onClick, target, rel, className = "" }: 
         <span className="h-px w-full bg-current" />
       </span>
       <span className="flex h-[14px] shrink-0 items-center">
-        <motion.span variants={{ rest: { width: 0 }, hover: { width: 16 } }} transition={ease} className="h-px shrink-0 bg-current" />
-        <ChevronMark />
+        <ArrowIcon restColor="#003841" hoverColor="#E05829" />
       </span>
     </>
   );

@@ -11,27 +11,16 @@ export async function PUT(request: Request, context: Context) {
   const { id } = await context.params;
   const body = await request.json();
 
-  if (body.destaqueHome) {
-    const totalDestaques = await prisma.projeto.count({ where: { destaqueHome: true, id: { not: id } } });
-    if (totalDestaques >= 3) {
-      return Response.json({ error: "É permitido destacar no máximo 3 projetos na Home" }, { status: 409 });
-    }
-  }
-
-  const projeto = await prisma.projeto.update({
+  const faq = await prisma.faq.update({
     where: { id },
     data: {
-      categoria: body.categoria,
-      titulo: body.titulo,
-      descricao: body.descricao,
-      imagemUrl: body.imagemUrl,
-      destaqueHome: body.destaqueHome,
+      pergunta: body.pergunta,
+      resposta: body.resposta,
       ativo: body.ativo,
       ordem: body.ordem,
-      depoimentoId: body.depoimentoId || null,
     },
   });
-  return Response.json(projeto);
+  return Response.json(faq);
 }
 
 export async function DELETE(_request: Request, context: Context) {
@@ -39,6 +28,6 @@ export async function DELETE(_request: Request, context: Context) {
   if (!session) return Response.json({ error: "Não autorizado" }, { status: 401 });
 
   const { id } = await context.params;
-  await prisma.projeto.delete({ where: { id } });
+  await prisma.faq.delete({ where: { id } });
   return new Response(null, { status: 204 });
 }
