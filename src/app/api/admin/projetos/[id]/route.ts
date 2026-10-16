@@ -28,7 +28,8 @@ export async function PUT(request: Request, context: Context) {
       destaqueHome: body.destaqueHome,
       ativo: body.ativo,
       ordem: body.ordem,
-      depoimentoId: body.depoimentoId || null,
+      ...(body.depoimentoId !== undefined ? { depoimentoId: body.depoimentoId || null } : {}),
+      ...(body.linkDetalhes !== undefined ? { linkDetalhes: body.linkDetalhes || null } : {}),
     },
   });
   return Response.json(projeto);

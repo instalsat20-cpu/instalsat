@@ -6,7 +6,7 @@ const fields: Field[] = [
   { name: "nome", label: "Nome", required: true },
   { name: "cargo", label: "Cargo", required: true },
   { name: "texto", label: "Depoimento", type: "textarea", required: true },
-  { name: "fotoUrl", label: "Foto", type: "upload", accept: "image/png,image/jpeg,image/webp", help: "PNG, JPG ou WebP." },
+  { name: "fotoUrl", label: "Foto", type: "upload", accept: "image/png,image/jpeg,image/webp", help: "PNG, JPG ou WebP. Foto quadrada com o rosto centralizado (aparece tanto em miniatura redonda quanto em retrato). Mínimo 600×600px. Até 2MB.", maxSizeMB: 2, minWidth: 600, minHeight: 600 },
   { name: "linkGoogle", label: "Link da avaliação no Google", type: "url", placeholder: "https://..." },
   { name: "ordem", label: "Ordem", type: "number", help: "Menores números aparecem primeiro." },
   { name: "ativo", label: "Depoimento ativo", type: "toggle" },

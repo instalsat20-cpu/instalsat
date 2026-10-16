@@ -6,7 +6,7 @@ const fields: Field[] = [
   { name: "categoria", label: "Categoria", required: true },
   { name: "titulo", label: "Título", required: true },
   { name: "descricao", label: "Descrição", type: "textarea", required: true },
-  { name: "imagemUrl", label: "Imagem", type: "upload", accept: "image/png,image/jpeg,image/webp", help: "PNG, JPG ou WebP." },
+  { name: "imagemUrl", label: "Imagem", type: "upload", accept: "image/png,image/jpeg,image/webp", help: "PNG, JPG ou WebP. Paisagem, mínimo 1268×720px. Até 4MB.", maxSizeMB: 4, minWidth: 1268, minHeight: 720 },
   { name: "ordem", label: "Ordem", type: "number", help: "Menores números aparecem primeiro." },
   { name: "ativo", label: "Solução ativa", type: "toggle" },
   { name: "destaqueHome", label: "Destaque na Home", type: "toggle", help: "Máximo de 3 soluções simultâneas." },

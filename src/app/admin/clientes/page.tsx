@@ -5,8 +5,8 @@ import { CmsManager, type Column, type Field } from "@/components/admin/cms-mana
 const fields: Field[] = [
   { name: "nome", label: "Nome do cliente", required: true },
   { name: "siteUrl", label: "Site", type: "url", placeholder: "https://..." },
-  { name: "logoUrl", label: "Logo principal", type: "upload", required: true, accept: "image/png,image/svg+xml", help: "Aceita PNG e SVG." },
-  { name: "logoDarkUrl", label: "Logo para fundo escuro", type: "upload", accept: "image/png,image/svg+xml", help: "Opcional. Sem esta versão, a logo principal será usada." },
+  { name: "logoUrl", label: "Logo principal", type: "upload", required: true, accept: "image/png,image/svg+xml", help: "PNG ou SVG com fundo transparente. Tamanho recomendado: 400×120px. Até 200KB.", maxSizeMB: 0.2 },
+  { name: "logoDarkUrl", label: "Logo para fundo escuro", type: "upload", accept: "image/png,image/svg+xml", help: "Opcional (sem ela, a logo principal é usada). Mesma recomendação: PNG/SVG transparente, 400×120px, até 200KB.", maxSizeMB: 0.2 },
   { name: "ordem", label: "Ordem", type: "number", help: "Menores números aparecem primeiro." },
   { name: "ativo", label: "Cliente ativo", type: "toggle" },
 ];

@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 import type { Testimonial } from "@/components/ui/testimonial-modal";
 
 type SolucaoItem = { tag: string; title: string; img: string };
-type ProjetoItem = { tag: string; title: string; desc: string; img: string };
+export type ProjetoItem = { tag: string; title: string; desc: string; img: string };
 type DepoimentoItem = { quote: string; name: string; role: string; img: string };
 type ProcessoItem = { tag: string; num: string; title: string; desc: string; img: string };
 type PessoaItem = { name: string; role: string; image: string; description: string };
 type FaqItem = { question: string; answer: string };
-export type ProjetoCaseItem = { tag: string; title: string; img: string; paragraphs: string[]; testimonial?: Testimonial };
+export type MidiaCase = { tipo: "imagem" | "video"; url: string };
+export type ProjetoCaseItem = { tag: string; title: string; img: string; paragraphs: string[]; testimonial?: Testimonial; linkDetalhes?: string; midias?: MidiaCase[] };
 
 const imgSeguranca = "https://www.figma.com/api/mcp/asset/2b52e036-221e-4f5a-8778-1cc8b79efa43.png";
 const imgEletrica = "https://www.figma.com/api/mcp/asset/d3e2eeae-0a96-4f8a-ba1a-81d8db3d0e80.png";
@@ -161,6 +162,27 @@ export const DEFAULT_PROJETOS_CASES: ProjetoCaseItem[] = [
   },
 ];
 
+export const DEFAULT_SOLUCOES_CATEGORIAS: ProjetoItem[] = [
+  {
+    tag: "Eletrônica",
+    title: "Instalações e Manutenção Elétrica",
+    desc: "Instalações de baixa tensão, painéis de comando, contratos de manutenção corretiva, preventiva e preditiva. Presença técnica contínua para quem precisa de previsibilidade.",
+    img: "",
+  },
+  {
+    tag: "Elétrica",
+    title: "Infraestrutura elétrica que não para",
+    desc: "Instalações de baixa tensão, painéis de comando, contratos de manutenção corretiva, preventiva e preditiva. Presença técnica contínua para quem precisa de previsibilidade.",
+    img: "",
+  },
+  {
+    tag: "Eletromobilidade",
+    title: "Infraestrutura de recarga",
+    desc: "Instalações de baixa tensão, painéis de comando, contratos de manutenção corretiva, preventiva e preditiva. Presença técnica contínua para quem precisa de previsibilidade.",
+    img: "",
+  },
+];
+
 export const DEFAULT_FAQS: FaqItem[] = [
   {
     question: "Qual é a área de atendimento da Instalsat?",
@@ -256,6 +278,14 @@ export function usePessoas() {
   );
 }
 
+export function useSolucoesCategorias() {
+  return useFetchedList<{ categoria: string; titulo: string; descricao: string; imagemUrl: string | null }, ProjetoItem>(
+    "/api/solucoes-categorias",
+    DEFAULT_SOLUCOES_CATEGORIAS,
+    (item) => ({ tag: item.categoria, title: item.titulo, desc: item.descricao, img: item.imagemUrl || "" })
+  );
+}
+
 export function useFaqs() {
   return useFetchedList<{ pergunta: string; resposta: string }, FaqItem>(
     "/api/faq",
@@ -265,7 +295,7 @@ export function useFaqs() {
 }
 
 export function useProjetosCases() {
-  return useFetchedList<{ categoria: string; titulo: string; descricao: string; imagemUrl: string | null; depoimento: { texto: string; nome: string; cargo: string; fotoUrl: string | null } | null }, ProjetoCaseItem>(
+  return useFetchedList<{ categoria: string; titulo: string; descricao: string; imagemUrl: string | null; linkDetalhes: string | null; depoimento: { texto: string; nome: string; cargo: string; fotoUrl: string | null } | null; midias: { tipo: string; url: string }[] }, ProjetoCaseItem>(
     "/api/projetos-cases",
     DEFAULT_PROJETOS_CASES,
     (item) => ({
@@ -273,6 +303,8 @@ export function useProjetosCases() {
       title: item.titulo,
       img: item.imagemUrl || "",
       paragraphs: item.descricao.split("\n\n"),
+      linkDetalhes: item.linkDetalhes || undefined,
+      midias: item.midias.map((m) => ({ tipo: m.tipo === "video" ? "video" as const : "imagem" as const, url: m.url })),
       testimonial: item.depoimento
         ? { photo: item.depoimento.fotoUrl || "", name: item.depoimento.nome, role: item.depoimento.cargo, project: item.titulo, quote: item.depoimento.texto }
         : undefined,

@@ -7,7 +7,7 @@ const fields: Field[] = [
   { name: "numero", label: "Número", required: true, placeholder: "01" },
   { name: "titulo", label: "Título", required: true },
   { name: "descricao", label: "Descrição", type: "textarea", required: true },
-  { name: "imagemUrl", label: "Imagem", type: "upload", accept: "image/png,image/jpeg,image/webp", help: "PNG, JPG ou WebP." },
+  { name: "imagemUrl", label: "Imagem", type: "upload", accept: "image/png,image/jpeg,image/webp", help: "PNG, JPG ou WebP. Paisagem, mínimo 900×600px. Até 2MB.", maxSizeMB: 2, minWidth: 900, minHeight: 600 },
   { name: "ordem", label: "Ordem", type: "number", help: "Menores números aparecem primeiro." },
   { name: "ativo", label: "Etapa ativa", type: "toggle" },
 ];

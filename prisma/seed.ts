@@ -145,6 +145,19 @@ async function main() {
     console.log("Soluções já populadas, seed ignorado.");
   }
 
+  const solucoesCategorias = [
+    { categoria: "Eletrônica", titulo: "Instalações e Manutenção Elétrica", descricao: "Instalações de baixa tensão, painéis de comando, contratos de manutenção corretiva, preventiva e preditiva. Presença técnica contínua para quem precisa de previsibilidade.", imagemUrl: null, destaqueHome: false, ordem: 0 },
+    { categoria: "Elétrica", titulo: "Infraestrutura elétrica que não para", descricao: "Instalações de baixa tensão, painéis de comando, contratos de manutenção corretiva, preventiva e preditiva. Presença técnica contínua para quem precisa de previsibilidade.", imagemUrl: null, destaqueHome: false, ordem: 1 },
+    { categoria: "Eletromobilidade", titulo: "Infraestrutura de recarga", descricao: "Instalações de baixa tensão, painéis de comando, contratos de manutenção corretiva, preventiva e preditiva. Presença técnica contínua para quem precisa de previsibilidade.", imagemUrl: null, destaqueHome: false, ordem: 2 },
+  ];
+
+  if ((await prisma.solucao.count({ where: { destaqueHome: false } })) === 0) {
+    await prisma.solucao.createMany({ data: solucoesCategorias });
+    console.log(`${solucoesCategorias.length} categorias de soluções (página /solucoes) criadas.`);
+  } else {
+    console.log("Categorias de soluções já populadas, seed ignorado.");
+  }
+
   const projetosHome = [
     { categoria: "Segurança eletrônica", titulo: "Condomínio Residencial, Mauá SP", descricao: "Implantação de sistema de CFTV com IA, controle de acesso facial e automação de portão. Manutenção recorrente desde 2022.", imagemUrl: "https://www.figma.com/api/mcp/asset/83919e4a-7dfd-4ca6-9e70-5548c346cf74.png", destaqueHome: true, ordem: 0 },
     { categoria: "Instalação elétrica", titulo: "Empresa de reciclagem, Grande ABC", descricao: "Projeto e execução de painel de comando industrial e infraestrutura elétrica de baixa tensão.", imagemUrl: "https://www.figma.com/api/mcp/asset/633f4998-b903-46df-b005-4dc03bde51b3.png", destaqueHome: true, ordem: 1 },

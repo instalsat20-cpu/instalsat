@@ -88,18 +88,30 @@ model Solucao {
 }
 
 model Projeto {
-  id           String      @id @default(cuid())
+  id           String         @id @default(cuid())
   categoria    String
   titulo       String
   descricao    String
   imagemUrl    String?
-  destaqueHome Boolean     @default(false)
-  ativo        Boolean     @default(true)
-  ordem        Int         @default(0)
+  destaqueHome Boolean        @default(false)
+  ativo        Boolean        @default(true)
+  ordem        Int            @default(0)
   depoimentoId String?
-  depoimento   Depoimento? @relation(fields: [depoimentoId], references: [id])
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  depoimento   Depoimento?    @relation(fields: [depoimentoId], references: [id])
+  linkDetalhes String?
+  midias       MidiaProjeto[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+}
+
+model MidiaProjeto {
+  id        String   @id @default(cuid())
+  projetoId String
+  projeto   Projeto  @relation(fields: [projetoId], references: [id], onDelete: Cascade)
+  tipo      String // "imagem" | "video"
+  url       String
+  ordem     Int      @default(0)
+  createdAt DateTime @default(now())
 }
 
 model Processo {
